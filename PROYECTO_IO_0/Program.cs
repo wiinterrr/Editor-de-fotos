@@ -11,6 +11,7 @@ namespace PROYECTO_IO
      *  --> R: int. Valor numérico de rojo de 0 a 255
      *  --> G: int. Valor numérico de verde de 0 a 255
      *  --> B: int. Valor numérico de azul de 0 a 255
+     OMAR omar omar
      ***********************************************************************************************************/
 
     class CPixel
