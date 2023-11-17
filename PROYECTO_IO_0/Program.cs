@@ -29,15 +29,15 @@ namespace PROYECTO_IO
 
     public class CUsuario // Creamos la clase en la que almacenamos datos de los usuarios
     {
-        public string nombre;
-        public string correo;
-        public string contraseña;
+        public string? nombre;
+        public string? correo;
+        public string? contraseña;
 
     }
 
     public class CLista
     {
-        public CUsuario[] usuarios;
+        public CUsuario[]? usuarios;
     }
 
     internal class Program
@@ -60,7 +60,7 @@ namespace PROYECTO_IO
             {
                 string inputfile = fotoelegida;
                 Bitmap inimage = new Bitmap(inputfile); // Abrimos la imagen como Bitmap
-                CPixel[,] inimage = new CPixel[inimage.Width, inimage.Height]; //Matriz de Pixeles que devolveremos
+                CPixel[,] outimage = new CPixel[inimage.Width, inimage.Height]; //Matriz de Pixeles que devolveremos
 
                 int j, i;
 
@@ -69,10 +69,10 @@ namespace PROYECTO_IO
                     for (j = 0; j < inimage.Height; j++)
                     {
                         Color color = inimage.GetPixel(i, j);
-                        inimage[i, j] = new CPixel(color.R, color.G, color.B);
+                        outimage[i, j] = new CPixel(color.R, color.G, color.B);
                     }
                 }
-                return inimage; //matriz de pixeles
+                return outimage; //matriz de pixeles
             }
             return null;
         }
@@ -91,18 +91,17 @@ namespace PROYECTO_IO
          *  --> False: Si no se ha podido guardar la imagen.
          ***********************************************************************************************************/
 
-        static bool MATRIZtoPNG(CPixel[,] result, string filename) //De matriz result a .png
+        static bool MATRIZtoPNG(CPixel[,] inimage, string filename) //De matriz result a .png
         {
-            if (result != null && filename != null)
+            if (inimage != null && filename != null)
             {
-                Bitmap outimage = new Bitmap(result.GetLength(0), result.GetLength(1));
-                int j, i;
+                Bitmap outimage = new Bitmap(inimage.GetLength(0), inimage.GetLength(1));
 
-                for (i = 0; i < result.GetLength(0); i++) // Recorrido por la imagen para guardar los valores
+                for (int i = 0; i < inimage.GetLength(0); i++) // Recorrido por la imagen para guardar los valores
                 {
-                    for (j = 0; j < result.GetLength(1); j++)
+                    for (int j = 0; j < inimage.GetLength(1); j++)
                     {
-                        outimage.SetPixel(i, j, Color.FromArgb(result[i, j].R, result[i, j].G, result[i, j].B));
+                        outimage.SetPixel(i, j, Color.FromArgb(inimage[i, j].R, inimage[i, j].G, inimage[i, j].B));
                     }
                 }
                 outimage.Save(filename); // Guardar la imagen
@@ -175,37 +174,46 @@ namespace PROYECTO_IO
             return null;
         }
 
-        static CPixel[,] cambiocolor(CPixel[,] inimage, string color)
+        static CPixel[,] cambiocolor(CPixel[,] outimage, string color)
         {
-            CPixel[,] result = null;
-            int width = inimage.GetLength(0);
-            int height = inimage.GetLength(1);
-            result = new CPixel[width, height];
-
-            Color col = inimage.GetPixel(i, j);
+            
+            
 
             if (color == "rojo")
-            {
-                CPixel colores = new CPixel(255, 0, 0);
+            {                
+                for (int i = 0; i < width; i++)
+                {
+                    for (int j = 0; j < height; j++)
+                    {
+                    result[i, j] = ;// cambiamos cada pixel por su tonalidad elegida por el usuario
+                    }
+                }
             }
             else if (color == "verde")
             {
-                CPixel colores = new CPixel(0, 255, o);
+                CPixel colores = new CPixel(0, 255, 0);
+                
+                for (int i = 0; i < width; i++)
+                {
+                    for (int j = 0; j < height; j++)
+                    {
+                    result[i, j] = ;// cambiamos cada pixel por su tonalidad elegida por el usuario
+                    }
+                }
             }
             else if (color == "azul")
             {
                 CPixel colores = new CPixel(0, 0, 255);
-            }
 
-
-            for (int i = 0; i < width; i++)
-            {
-                for (int j = 0; j < height; j++)
+                for (int i = 0; i < width; i++)
                 {
-                    result[i, j] = inimage[col.R + color, col.G + color, col.B + color]; // cambiamos cada pixel por su tonalidad elegida por el usuario
+                    for (int j = 0; j < height; j++)
+                    {
+                    result[i, j] = ;// cambiamos cada pixel por su tonalidad elegida por el usuario
+                    }
                 }
             }
-            return result;
+             return result;            
         }
 
         static bool verificador(string fotoelegida)
@@ -344,10 +352,8 @@ namespace PROYECTO_IO
     }
 }
 
-
 /*
  1. Crear funciones y mejorarlas, quitar errores, etc etc
  2. Acabar el menu, revisar si la imagen existe o no. 
- 3. Devolver la imagen al archivo --> usar save image
-
+ 3. Devolver la imagen al archivo --> usar funcion MATRIZtoPNG
 */
