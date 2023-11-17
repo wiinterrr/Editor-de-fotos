@@ -29,15 +29,15 @@ namespace PROYECTO_IO
 
     public class CUsuario // Creamos la clase en la que almacenamos datos de los usuarios
     {
-        public string? nombre;
-        public string? correo;
-        public string? contraseña;
+        public string nombre;
+        public string correo;
+        public string contraseña;
 
     }
 
     public class CLista
     {
-        public CUsuario[]? usuarios;
+        public CUsuario[] usuarios;
     }
 
     internal class Program
@@ -174,7 +174,7 @@ namespace PROYECTO_IO
             return null;
         }
 
-        static CPixel[,] cambiocolor(CPixel[,] outimage, string color)
+        static CPixel[,] cambiocolor(CPixel[,] inimage, string color)
         {
             
             
