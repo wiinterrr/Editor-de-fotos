@@ -177,9 +177,6 @@ namespace PROYECTO_IO
 
         static CPixel[,] cambiocolor(CPixel[,] inimage, string color)
         {
-            
-            
-
             if (color == "rojo")
             {                
                 for (int i = 0; i < width; i++)
@@ -214,7 +211,7 @@ namespace PROYECTO_IO
                     }
                 }
             }
-             return result;            
+            return result;            
         }
 
         static bool verificador(string fotoelegida)
@@ -231,33 +228,33 @@ namespace PROYECTO_IO
             }
         }
 
-        /*  static int[,] collage(CPixel[,] inimage, CPixel[,] inimage2, CPixel[,] inimage3, CPixel[,] inimage4)
-          {
-              CPixel[,] result = null;
-              if (inimage != null)
-              {
-                  int width1 = inimage.GetLength(1); // eje x
-                  int widht2 = inimage2.GetLength(1);                
+        static int[,] collage(CPixel[,] inimage, CPixel[,] inimage2, CPixel[,] inimage3, CPixel[,] inimage4)
+        {
+            CPixel[,] result = null;
+            if (inimage != null)
+            {
+                int width1 = inimage.GetLength(1); // eje x
+                int widht2 = inimage2.GetLength(1);                
 
-                  int height1 = inimage.GetLength(0); // eje y
-                  int height3 = inimage3.GetLength(0);
+                int height1 = inimage.GetLength(0); // eje y
+                int height3 = inimage3.GetLength(0);
 
-                  int width = width1 + widht2;
-                  int height = height1 + height3;
+                int width = width1 + widht2;
+                int height = height1 + height3;
 
-                  result = new CPixel[width, height]; // las fotos 1 y 2 seran las q marquen filas yy las 
-                  int i, j;
-                  for (i = 0; i < width; i++)
-                  {                    
-                      for (j = 0; j < height; j++)
-                      {                        
-                          result[i, j] = inimage[];                       
-                      }                   
-                  }
-                  return result;
-              }
-              return null;
-          } */
+                result = new CPixel[width, height]; // las fotos 1 y 2 seran las q marquen filas yy las 
+                int i, j;
+                for (i = 0; i < width; i++)
+                {                    
+                    for (j = 0; j < height; j++)
+                    {                        
+                        result[i, j] = inimage[];                       
+                    }                   
+                }
+                return result;
+            }
+            return null;
+        } 
 
         static void menu() //Menu
         {
@@ -356,5 +353,5 @@ namespace PROYECTO_IO
 /*
  1. Crear funciones y mejorarlas, quitar errores, etc etc
  2. Acabar el menu, revisar si la imagen existe o no. 
- 3. Devolver la imagen al archivo --> usar funcion MATRIZtoPNG
+ 3. Devolver la imagen a la funcion MATRIZtoPNG
 */
