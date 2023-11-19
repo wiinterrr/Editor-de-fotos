@@ -11,7 +11,6 @@ namespace PROYECTO_IO
      *  --> R: int. Valor numérico de rojo de 0 a 255
      *  --> G: int. Valor numérico de verde de 0 a 255
      *  --> B: int. Valor numérico de azul de 0 a 255
-     OMAR omar omar
      ***********************************************************************************************************/
 
     class CPixel
@@ -177,58 +176,53 @@ namespace PROYECTO_IO
 
         static CPixel[,] cambiocolor(CPixel[,] inimage, string color)
         {
-            if (color == "rojo")
-            {                
-                for (int i = 0; i < width; i++)
-                {
-                    for (int j = 0; j < height; j++)
-                    {
-                    result[i, j] = ;// cambiamos cada pixel por su tonalidad elegida por el usuario
-                    }
-                }
-            }
-            else if (color == "verde")
-            {
-                CPixel colores = new CPixel(0, 255, 0);
-                
-                for (int i = 0; i < width; i++)
-                {
-                    for (int j = 0; j < height; j++)
-                    {
-                    result[i, j] = ;// cambiamos cada pixel por su tonalidad elegida por el usuario
-                    }
-                }
-            }
-            else if (color == "azul")
-            {
-                CPixel colores = new CPixel(0, 0, 255);
+            CPixel[,] result = null;
+            int width, height;
 
-                for (int i = 0; i < width; i++)
-                {
-                    for (int j = 0; j < height; j++)
+            if(inimage != null)
+            {
+                if (color == "rojo")
+                {                
+                    for (int i = 0; i < width; i++)
                     {
-                    result[i, j] = ;// cambiamos cada pixel por su tonalidad elegida por el usuario
+                        for (int j = 0; j < height; j++)
+                        {
+                        result[i, j] = ;// cambiamos cada pixel por su tonalidad elegida por el usuario
+                        }
                     }
                 }
-            }
-            return result;            
+                else if (color == "verde")
+                {
+                    CPixel colores = new CPixel(0, 255, 0);
+                    
+                    for (int i = 0; i < width; i++)
+                    {
+                        for (int j = 0; j < height; j++)
+                        {
+                        result[i, j] = ;// cambiamos cada pixel por su tonalidad elegida por el usuario
+                        }
+                    }
+                }
+                else if (color == "azul")
+                {
+                    CPixel colores = new CPixel(0, 0, 255);
+
+                    for (int i = 0; i < width; i++)
+                    {
+                        for (int j = 0; j < height; j++)
+                        {
+                        result[i, j] = ;// cambiamos cada pixel por su tonalidad elegida por el usuario
+                        }
+                    }
+                }
+                return result; 
+            } 
+            return result;          
         }
 
-        static bool verificador(string fotoelegida)
-        {
-            StreamReader lector_fotos;
-            try
-            {
-                lector_fotos = new StreamReader(fotoelegida + ".png");
-                return true;
-            }
-            catch (FileNotFoundException)
-            {
-                return false;
-            }
-        }
+        
 
-        static int[,] collage(CPixel[,] inimage, CPixel[,] inimage2, CPixel[,] inimage3, CPixel[,] inimage4)
+        /* static int[,] collage(CPixel[,] inimage, CPixel[,] inimage2, CPixel[,] inimage3, CPixel[,] inimage4)
         {
             CPixel[,] result = null;
             if (inimage != null)
@@ -254,7 +248,7 @@ namespace PROYECTO_IO
                 return result;
             }
             return null;
-        } 
+        }  */
 
         static void menu() //Menu
         {
@@ -294,56 +288,61 @@ namespace PROYECTO_IO
             fotoelegida = Console.ReadLine();
             CPixel[,] inimage = PNGtoMATRIZ(fotoelegida);
 
+            /*
             segunda = Console.ReadLine();              // 3 fotos mas para el caso del collage
             CPixel[,] inimage2 = PNGtoMATRIZ(segunda);
             tercera = Console.ReadLine();
             CPixel[,] inimage3 = PNGtoMATRIZ(tercera);
             cuarta = Console.ReadLine();
             CPixel[,] inimage4 = PNGtoMATRIZ(cuarta);
+            */
 
-            verif = verificador(fotoelegida);
-
-            menu();
-            opcion = Convert.ToInt32(Console.ReadLine());
-
-            while (opcion != 0)
+            if(inimage != null)
             {
-                switch (opcion)
-                {
-                    case '0':
-                        Console.WriteLine("Terminando Programa");
-                        break;
-
-                    case '1':
-                        Console.WriteLine("Espera mientras te hago tremendo marco en la foto...");
-                        enmarcar(inimage);
-                        break;
-
-                    /*case '2':
-                        Console.WriteLine("Te estoy haciendo tremendo collage...");
-                        collage(inimage, inimage2, inimage3, inimage4);
-                        break;
-                    */
-                    case '3':
-                        Console.WriteLine("A que color quieres cambiar?");
-                        colorelegido = Console.ReadLine().ToLower();
-
-                        Console.WriteLine("Perfecto, " + colorelegido + ", manos a la obra");
-                        cambiocolor(inimage, colorelegido);
-                        break;
-
-                    case '4':
-                        Console.WriteLine("Espera un segundin mientras invierto la foto...");
-                        reverse(inimage);
-                        break;
-
-                    default:
-                        Console.WriteLine("Código de operacion incorrecto chavalín");
-                        break;
-                }
                 menu();
                 opcion = Convert.ToInt32(Console.ReadLine());
+
+                while (opcion != 0)
+                {
+                    switch (opcion)
+                    {
+                        case '0':
+                            Console.WriteLine("Terminando Programa");
+                            break;
+
+                        case '1':
+                            Console.WriteLine("Espera mientras te hago tremendo marco en la foto...");
+                            enmarcar(inimage);
+                            break;
+
+                        /*case '2':
+                            Console.WriteLine("Te estoy haciendo tremendo collage...");
+                            collage(inimage, inimage2, inimage3, inimage4);
+                            break;
+                        */
+                        case '3':
+                            Console.WriteLine("A que color quieres cambiar?");
+                            colorelegido = Console.ReadLine().ToLower();
+
+                            Console.WriteLine("Perfecto, " + colorelegido + ", manos a la obra");
+                            cambiocolor(inimage, colorelegido);
+                            break;
+
+                        case '4':
+                            Console.WriteLine("Espera un segundin mientras invierto la foto...");
+                            reverse(inimage);
+                            break;
+
+                        default:
+                            Console.WriteLine("Código de operacion incorrecto chavalín");
+                            break;
+                    }
+                    menu();
+                    opcion = Convert.ToInt32(Console.ReadLine());
+                }
             }
+            
+            
             Console.WriteLine("Hasta otra! :)");
             Console.ReadKey();
         }
