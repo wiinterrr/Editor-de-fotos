@@ -1,19 +1,18 @@
 ﻿using System;
 using System.IO;  // para poder operar con archivos
-using System.Drawing;
-using System.Drawing.Imaging; // para poder operar con fotos
+using System.Drawing; // para poder operar con fotos
+using System.Drawing.Imaging; 
 
 namespace PROYECTO_IO
 {
     /***********************************************************************************************************
-     * Nombre de la clase: Pixel
+     * Nombre de la clase: CPixel
      * Funcionalidad: almacena los valores R, G y B, correspondientes al color de un pixel de una imagen
      * Parametros de entrada:
      *  --> R: int. Valor numérico de rojo de 0 a 255
      *  --> G: int. Valor numérico de verde de 0 a 255
      *  --> B: int. Valor numérico de azul de 0 a 255
      ***********************************************************************************************************/
-
     class CPixel
     {
         public int R;
@@ -54,7 +53,6 @@ namespace PROYECTO_IO
          *         la posición [anchura,altura] el valor de abajo a la derecha de la imagen original.
          *  --> Valor null si la imagen no se encuentra.
          * **********************************************************************************************************************/
-
         static CPixel[,] PNGtoMATRIZ(string fotoelegida) //De .png a matriz inimage
         {
             if (fotoelegida != null)
@@ -91,7 +89,6 @@ namespace PROYECTO_IO
          *  --> True: Si se ha podido guardar la imagen
          *  --> False: Si no se ha podido guardar la imagen.
          ***********************************************************************************************************/
-
         static bool MATRIZtoPNG(CPixel[,] inimage, string filename) //De matriz result a .png
         {
             if (inimage != null && filename != null)
@@ -127,7 +124,6 @@ namespace PROYECTO_IO
          *              la posición [anchura,altura] el valor de abajo a la izquierda de la matriz original
          *  --> null: Si no se ha pasado un parámetro de entrada != null.
          ***********************************************************************************************************/
-
         static CPixel[,] reverse(CPixel[,] inimage)
         {
             CPixel[,] result = null;
@@ -151,9 +147,6 @@ namespace PROYECTO_IO
             }
             return null;
         }
-
-
-
 
         // Enmarca la foto con un color negro
         static CPixel[,] enmarcar(CPixel[,] inimage)
@@ -183,10 +176,6 @@ namespace PROYECTO_IO
             }
             return null;
         }
-
-
-
-
 
         static CPixel[,] cambiocolor(CPixel[,] inimage, string color)
         {
@@ -287,7 +276,7 @@ namespace PROYECTO_IO
             Console.WriteLine("Introduce correo");
             correo = Console.ReadLine();
             escribir_usuario.WriteLine(correo);
-            Console.WriteLine("Contraseña por favor");
+            Console.WriteLine("Contraseña, por favor");
             contraseña = Console.ReadLine();
             escribir_usuario.WriteLine(contraseña);
 
@@ -295,7 +284,6 @@ namespace PROYECTO_IO
             us.nombre = usuario;
             us.correo = correo;
             us.contraseña = contraseña;
-
 
             Console.WriteLine("Qué imagen quieres manipular?"); // Comprobamos si la imagen que nos da el usuario existe
             fotoelegida = Console.ReadLine();
