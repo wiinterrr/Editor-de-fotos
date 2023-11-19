@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;  // para poder operar con archivos
-using System.Drawing; // para poder operar con fotos
+using System.Drawing;
+using System.Drawing.Imaging; // para poder operar con fotos
 
 namespace PROYECTO_IO
 {
@@ -151,6 +152,10 @@ namespace PROYECTO_IO
             return null;
         }
 
+
+
+
+        // Enmarca la foto con un color negro
         static CPixel[,] enmarcar(CPixel[,] inimage)
         {
             CPixel[,] result = null;
@@ -161,18 +166,27 @@ namespace PROYECTO_IO
                 result = new CPixel[width, height];
                 int j, i;
                 result = inimage;
+                
+                CPixel colorNegro = new CPixel(0, 0, 0); 
 
                 for (i = 0; i < width; i++)
                 {
                     for (j = 0; j < height; j++)
                     {
-                        result[i, j] = inimage[width - i - 1, j];
+                        if(i == 0 || i == width - 1 || j == 0 || j == height - 1) // verificamos si estamos en los bordes
+                        {
+                            result[i, j] = new CPixel(colorNegro.R, colorNegro.G, colorNegro.B);
+                        }
                     }
                 }
                 return result;
             }
             return null;
         }
+
+
+
+
 
         static CPixel[,] cambiocolor(CPixel[,] inimage, string color)
         {
@@ -181,37 +195,36 @@ namespace PROYECTO_IO
 
             if(inimage != null)
             {
+                width = inimage.GetLength(0);
+                height = inimage.GetLength(1);
+                result = new CPixel[width, height];
+
+                CPixel colores = null;
+
                 if (color == "rojo")
-                {                
-                    for (int i = 0; i < width; i++)
-                    {
-                        for (int j = 0; j < height; j++)
-                        {
-                        result[i, j] = ;// cambiamos cada pixel por su tonalidad elegida por el usuario
-                        }
-                    }
+                { 
+                    colores = new CPixel(255, 0, 0);               
+                    
                 }
                 else if (color == "verde")
                 {
-                    CPixel colores = new CPixel(0, 255, 0);
+                    colores = new CPixel(0, 255, 0);
                     
-                    for (int i = 0; i < width; i++)
-                    {
-                        for (int j = 0; j < height; j++)
-                        {
-                        result[i, j] = ;// cambiamos cada pixel por su tonalidad elegida por el usuario
-                        }
-                    }
+                    
                 }
                 else if (color == "azul")
                 {
-                    CPixel colores = new CPixel(0, 0, 255);
+                    colores = new CPixel(0, 0, 255);
 
+                    
+                }
+                if(colores != null)
+                {
                     for (int i = 0; i < width; i++)
                     {
                         for (int j = 0; j < height; j++)
                         {
-                        result[i, j] = ;// cambiamos cada pixel por su tonalidad elegida por el usuario
+                            result[i, j] = new CPixel(colores.R, colores.G, colores.B);// cambiamos cada pixel por su tonalidad elegida por el usuario
                         }
                     }
                 }
@@ -265,7 +278,7 @@ namespace PROYECTO_IO
             string fotoelegida, segunda, tercera, cuarta, colorelegido;
             string usuario, correo, contraseña;
             int opcion;
-            bool verif;
+            bool guardada;
 
             Console.WriteLine("Introduce usuario");
             usuario = Console.ReadLine();
@@ -311,8 +324,13 @@ namespace PROYECTO_IO
                             break;
 
                         case '1':
-                            Console.WriteLine("Espera mientras te hago tremendo marco en la foto...");
+                            Console.WriteLine("Enmarcando de color negro...");
                             enmarcar(inimage);
+                            guardada = MATRIZtoPNG(inimage, fotoelegida);
+                            if(guardada==true)
+                            {
+                                Console.WriteLine("Foto guardada tio");
+                            }
                             break;
 
                         /*case '2':
@@ -321,16 +339,26 @@ namespace PROYECTO_IO
                             break;
                         */
                         case '3':
-                            Console.WriteLine("A que color quieres cambiar?");
+                            Console.WriteLine("¿Quieres cambiar a rojo, verde o azul?: ");
                             colorelegido = Console.ReadLine().ToLower();
 
                             Console.WriteLine("Perfecto, " + colorelegido + ", manos a la obra");
                             cambiocolor(inimage, colorelegido);
+                            guardada = MATRIZtoPNG(inimage, fotoelegida);
+                            if(guardada==true)
+                            {
+                                Console.WriteLine("Foto guardada tio");
+                            }
                             break;
 
                         case '4':
                             Console.WriteLine("Espera un segundin mientras invierto la foto...");
                             reverse(inimage);
+                            guardada = MATRIZtoPNG(inimage, fotoelegida);
+                            if(guardada==true)
+                            {
+                                Console.WriteLine("Foto guardada tio");
+                            }
                             break;
 
                         default:
