@@ -2,7 +2,6 @@
 using System.IO;  // para poder operar con archivos
 using System.Drawing; // para poder operar con fotos
 using System.Drawing.Imaging;
-using System.Xml.XPath;
 
 namespace PROYECTO_IO
 {
