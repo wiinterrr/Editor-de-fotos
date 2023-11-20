@@ -302,7 +302,7 @@ namespace PROYECTO_IO
                 {
                     switch (opcion)
                     {
-                        case 0;
+                        case 0:
                             Console.WriteLine("Terminando Programa");
                             break;
 
