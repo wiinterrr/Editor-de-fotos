@@ -32,7 +32,6 @@ namespace PROYECTO_IO
         public string nombre;
         public string correo;
         public string contraseña;
-
     }
 
     public class CLista
@@ -192,20 +191,15 @@ namespace PROYECTO_IO
 
                 if (color == "rojo")
                 { 
-                    colores = new CPixel(255, 0, 0);               
-                    
+                    colores = new CPixel(255, 0, 0);             
                 }
                 else if (color == "verde")
                 {
-                    colores = new CPixel(0, 255, 0);
-                    
-                    
+                    colores = new CPixel(0, 255, 0);              
                 }
                 else if (color == "azul")
                 {
-                    colores = new CPixel(0, 0, 255);
-
-                    
+                    colores = new CPixel(0, 0, 255);                   
                 }
                 if(colores != null)
                 {
@@ -221,7 +215,6 @@ namespace PROYECTO_IO
             } 
             return result;          
         }
-
         
         public static CPixel[,] collage(CPixel[,] inimage, CPixel[,] inimage2, CPixel[,] inimage3, CPixel[,] inimage4)
         {
@@ -232,7 +225,6 @@ namespace PROYECTO_IO
                 // Verifica que las dimensiones de todas las imágenes sean iguales
                 int height = inimage.GetLength(0);
                 int width = inimage.GetLength(1);
-
 
                 if (height != inimage2.GetLength(0) || width != inimage2.GetLength(1) ||
                     height != inimage3.GetLength(0) || width != inimage3.GetLength(1) ||
@@ -255,7 +247,6 @@ namespace PROYECTO_IO
             return result;
         }
         
-
         public static CPixel MediaPixel(CPixel pixel1, CPixel pixel2, CPixel pixel3, CPixel pixel4)
         {
             int averageRed = (pixel1.R + pixel2.R + pixel3.R + pixel4.R) / 4;
@@ -264,9 +255,7 @@ namespace PROYECTO_IO
 
             return new CPixel(averageRed, averageGreen, averageBlue);
         }
-
-          
-
+      
         static void menu() //Menu
         {
             Console.WriteLine("Qué operación quieres realizar?");
@@ -304,8 +293,6 @@ namespace PROYECTO_IO
             fotoelegida = Console.ReadLine();
             CPixel[,] inimage = PNGtoMATRIZ(fotoelegida);
 
-
-
             if(inimage != null)
             {
                 menu();
@@ -315,11 +302,11 @@ namespace PROYECTO_IO
                 {
                     switch (opcion)
                     {
-                        case '0':
+                        case 0;
                             Console.WriteLine("Terminando Programa");
                             break;
 
-                        case '1':
+                        case 1:
                             Console.WriteLine("Enmarcando de color negro...");
                             enmarcar(inimage);
                             if(enmarcar(inimage) != null)
@@ -332,8 +319,7 @@ namespace PROYECTO_IO
                             }
                             break;
                             
-
-                        case '2':
+                        case 2:
                             Console.WriteLine("Para el collage necesito 3 fotos mas tio");
                             Console.WriteLine("El nombre de la segunda foto tio");
                             fotoelegida2 = Console.ReadLine();
@@ -359,7 +345,7 @@ namespace PROYECTO_IO
                             }
                             break;
                         
-                        case '3':
+                        case 3:
                             Console.WriteLine("¿Quieres cambiar a rojo, verde o azul?: ");
                             colorelegido = Console.ReadLine().ToLower();
 
@@ -375,7 +361,7 @@ namespace PROYECTO_IO
                             }
                             break;
 
-                        case '4':
+                        case 4:
                             Console.WriteLine("Espera un segundin mientras invierto la foto...");
                             reverse(inimage);
                             if(reverse(inimage) != null)
@@ -400,11 +386,9 @@ namespace PROYECTO_IO
             {
                 Console.WriteLine("No se pudo cargar la imagen");
             }
-            
-            
+                        
             Console.WriteLine("Hasta otra! :)");
             Console.ReadKey();
         }
     }
 }
-
