@@ -32,6 +32,7 @@ namespace PROYECTO_IO
         public string nombre;
         public string correo;
         public string contraseña;
+
     }
 
     public class CLista
@@ -52,19 +53,17 @@ namespace PROYECTO_IO
          *         la posición [anchura,altura] el valor de abajo a la derecha de la imagen original.
          *  --> Valor null si la imagen no se encuentra.
          * **********************************************************************************************************************/
-        static CPixel[,] PNGtoMATRIZ(string fotoelegida) //De .png a matriz inimage
+        static CPixel[,] PNGtoMATRIZ(string fotoelegida) //De .png o .jpg a matriz inimage
         {
             if (fotoelegida != null)
             {
-                string inputfile = fotoelegida;
-                Bitmap inimage = new Bitmap(inputfile); // Abrimos la imagen como Bitmap
+                string inputimagename = fotoelegida;
+                Bitmap inimage = new Bitmap(inputimagename); // Abrimos la imagen como Bitmap
                 CPixel[,] outimage = new CPixel[inimage.Width, inimage.Height]; //Matriz de Pixeles que devolveremos
 
-                int j, i;
-
-                for (i = 0; i < inimage.Width; i++) //Rellenamos el vector con los valores de la imagen
+                for (int i = 0; i < inimage.Width; i++) //Rellenamos el vector con los valores de la imagen
                 {
-                    for (j = 0; j < inimage.Height; j++)
+                    for (int j = 0; j < inimage.Height; j++)
                     {
                         Color color = inimage.GetPixel(i, j);
                         outimage[i, j] = new CPixel(color.R, color.G, color.B);
@@ -158,16 +157,16 @@ namespace PROYECTO_IO
                 result = new CPixel[width, height];
                 int j, i;
                 result = inimage;
-                
-                CPixel colorNegro = new CPixel(0, 0, 0); 
+
+                CPixel colorRojo = new CPixel(255, 0, 0);
 
                 for (i = 0; i < width; i++)
                 {
                     for (j = 0; j < height; j++)
                     {
-                        if(i == 0 || i == width - 1 || j == 0 || j == height - 1) // verificamos si estamos en los bordes
+                        if (i == 0 || i == width - 1 || j == 0 || j == height - 1) // verificamos si estamos en los bordes
                         {
-                            result[i, j] = new CPixel(colorNegro.R, colorNegro.G, colorNegro.B);
+                            result[i, j] = new CPixel(colorRojo.R, colorRojo.G, colorRojo.B);
                         }
                     }
                 }
@@ -179,58 +178,79 @@ namespace PROYECTO_IO
         static CPixel[,] cambiocolor(CPixel[,] inimage, string color)
         {
             CPixel[,] result = null;
-            int width, height;
-
-            if(inimage != null)
+            
+            //cambio color
+            if (inimage != null)
             {
+                int width, height;
                 width = inimage.GetLength(0);
                 height = inimage.GetLength(1);
                 result = new CPixel[width, height];
+                result = inimage;
 
                 CPixel colores = null;
 
                 if (color == "rojo")
-                { 
-                    colores = new CPixel(255, 0, 0);             
+                {
+                    CPixel col = new CPixel(249, 20, 0);
+                    for (int i = 0; i < height; i++)
+                    {
+                        for (int j = 0; j < width; j++)
+                        {
+                            result[i, j] = new CPixel(col.R, col.G, col.B);
+                        }
+                    }
+
+
                 }
                 else if (color == "verde")
                 {
-                    colores = new CPixel(0, 255, 0);              
+
+                    CPixel col = new CPixel(5, 240, 0);
+                    for (int i = 0; i < height; i++)
+                    {
+                        for (int j = 0; j < width; j++)
+                        {
+                            result[i, j] = new CPixel(col.R, col.G, col.B);
+                        }
+                    }
+
                 }
                 else if (color == "azul")
                 {
-                    colores = new CPixel(0, 0, 255);                   
-                }
-                if(colores != null)
-                {
-                    for (int i = 0; i < width; i++)
+                    CPixel col = new CPixel(55, 11, 229);
+                    for (int i = 0; i < height; i++)
                     {
-                        for (int j = 0; j < height; j++)
+                        for (int j = 0; j < width; j++)
                         {
-                            result[i, j] = new CPixel(colores.R, colores.G, colores.B);// cambiamos cada pixel por su tonalidad elegida por el usuario
+                            result[i, j] = new CPixel(col.R, col.G, col.B);
                         }
                     }
+
                 }
-                return result; 
-            } 
-            return result;          
+                
+                return result;
+            }
+            return result;
         }
-        
+
+
         public static CPixel[,] collage(CPixel[,] inimage, CPixel[,] inimage2, CPixel[,] inimage3, CPixel[,] inimage4)
         {
             CPixel[,] result = null;
-            
+
             if (inimage != null || inimage2 != null || inimage3 != null || inimage4 != null)
             {
                 // Verifica que las dimensiones de todas las imágenes sean iguales
                 int height = inimage.GetLength(0);
                 int width = inimage.GetLength(1);
 
+
                 if (height != inimage2.GetLength(0) || width != inimage2.GetLength(1) ||
                     height != inimage3.GetLength(0) || width != inimage3.GetLength(1) ||
                     height != inimage4.GetLength(0) || width != inimage4.GetLength(1))
                 {
-                   result = new CPixel[height, width];
+                    result = new CPixel[height, width];
 
                     // Combinar las imágenes en el collage
                     for (int i = 0; i < height; i++)
@@ -246,7 +266,8 @@ namespace PROYECTO_IO
             }
             return result;
         }
-        
+
+
         public static CPixel MediaPixel(CPixel pixel1, CPixel pixel2, CPixel pixel3, CPixel pixel4)
         {
             int averageRed = (pixel1.R + pixel2.R + pixel3.R + pixel4.R) / 4;
@@ -255,12 +276,14 @@ namespace PROYECTO_IO
 
             return new CPixel(averageRed, averageGreen, averageBlue);
         }
-      
+
+
+
         static void menu() //Menu
         {
             Console.WriteLine("Qué operación quieres realizar?");
             Console.WriteLine("0: Terminar");
-            Console.WriteLine("1: Enmarcar la foto de verde");
+            Console.WriteLine("1: Enmarcar la foto");
             Console.WriteLine("2: Hacer un collage con 4 fotos");
             Console.WriteLine("3: Cambiar la tonalidad de la foto");
             Console.WriteLine("4: Invertir la imagen");
@@ -268,21 +291,20 @@ namespace PROYECTO_IO
 
         static void Main(string[] args)
         {
-            string fotoelegida,fotoelegida2, fotoelegida3, fotoelegida4, colorelegido;
+            string fotoelegida, fotoelegida2, fotoelegida3, fotoelegida4, colorelegido;
             string usuario, correo, contraseña;
             int opcion;
             bool guardada;
 
             Console.WriteLine("Introduce usuario");
             usuario = Console.ReadLine();
-            StreamWriter escribir_usuario = new StreamWriter(usuario + ".txt");
-            escribir_usuario.WriteLine(usuario);
+            
             Console.WriteLine("Introduce correo");
             correo = Console.ReadLine();
-            escribir_usuario.WriteLine(correo);
+            
             Console.WriteLine("Contraseña, por favor");
             contraseña = Console.ReadLine();
-            escribir_usuario.WriteLine(contraseña);
+            
 
             CUsuario us = new CUsuario();
             us.nombre = usuario;
@@ -293,7 +315,9 @@ namespace PROYECTO_IO
             fotoelegida = Console.ReadLine();
             CPixel[,] inimage = PNGtoMATRIZ(fotoelegida);
 
-            if(inimage != null)
+
+
+            if (inimage != null)
             {
                 menu();
                 opcion = Convert.ToInt32(Console.ReadLine());
@@ -307,18 +331,19 @@ namespace PROYECTO_IO
                             break;
 
                         case 1:
-                            Console.WriteLine("Enmarcando de color negro...");
+                            Console.WriteLine("Enmarcando de color rojo...");
                             enmarcar(inimage);
-                            if(enmarcar(inimage) != null)
+                            if (enmarcar(inimage) != null)
                             {
                                 guardada = MATRIZtoPNG(inimage, fotoelegida);
-                                if(guardada == true)
+                                if (guardada == true)
                                 {
                                     Console.WriteLine("Foto guardada tio");
                                 }
                             }
                             break;
-                            
+
+
                         case 2:
                             Console.WriteLine("Para el collage necesito 3 fotos mas tio");
                             Console.WriteLine("El nombre de la segunda foto tio");
@@ -330,31 +355,31 @@ namespace PROYECTO_IO
                             Console.WriteLine("El nombre de la cuarta foto tio");
                             fotoelegida4 = Console.ReadLine();
                             CPixel[,] inimage4 = PNGtoMATRIZ(fotoelegida4);
-                            
-                            CPixel[,] fotocollage = collage(inimage,inimage2,inimage3,inimage4);
 
-                            if(collage(inimage,inimage2,inimage3,inimage4) != null)
+                            CPixel[,] fotocollage = collage(inimage, inimage2, inimage3, inimage4);
+
+                            if (collage(inimage, inimage2, inimage3, inimage4) != null)
                             {
                                 string collg = "collage.png";
-                                guardada = MATRIZtoPNG(fotocollage,collg);
-                                
-                                if(guardada == true)
+                                guardada = MATRIZtoPNG(fotocollage, collg);
+
+                                if (guardada == true)
                                 {
                                     Console.WriteLine("Foto guardada como collage.png tio");
                                 }
                             }
                             break;
-                        
+
                         case 3:
                             Console.WriteLine("¿Quieres cambiar a rojo, verde o azul?: ");
                             colorelegido = Console.ReadLine().ToLower();
 
                             Console.WriteLine("Perfecto, " + colorelegido + ", manos a la obra");
                             cambiocolor(inimage, colorelegido);
-                            if(cambiocolor(inimage, colorelegido) != null)
+                            if (cambiocolor(inimage, colorelegido) != null)
                             {
                                 guardada = MATRIZtoPNG(inimage, fotoelegida);
-                                if(guardada == true)
+                                if (guardada == true)
                                 {
                                     Console.WriteLine("Foto guardada tio");
                                 }
@@ -364,10 +389,10 @@ namespace PROYECTO_IO
                         case 4:
                             Console.WriteLine("Espera un segundin mientras invierto la foto...");
                             reverse(inimage);
-                            if(reverse(inimage) != null)
+                            if (reverse(inimage) != null)
                             {
                                 guardada = MATRIZtoPNG(inimage, fotoelegida);
-                                if(guardada == true)
+                                if (guardada == true)
                                 {
                                     Console.WriteLine("Foto guardada tio");
                                 }
@@ -386,7 +411,8 @@ namespace PROYECTO_IO
             {
                 Console.WriteLine("No se pudo cargar la imagen");
             }
-                        
+
+            
             Console.WriteLine("Hasta otra! :)");
             Console.ReadKey();
         }
