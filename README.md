@@ -1,4 +1,4 @@
-# PROYECTO_IO_
+# Editor de fotos
 Prototipo 0
 
 Se trata de un editor de fotos .png / .jpg
