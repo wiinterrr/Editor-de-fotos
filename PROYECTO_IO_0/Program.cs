@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO;  // para poder operar con archivos
+using System.IO; // para poder operar con archivos
 using System.Drawing; // para poder operar con fotos
 using System.Drawing.Imaging;
 
@@ -27,6 +27,14 @@ namespace PROYECTO_IO
         }
     }
 
+    /***********************************************************************************************************
+     * Nombre de la clase: CUsuario
+     * Funcionalidad: 
+     * Parametros de entrada:
+     *  --> 
+     *  --> 
+     *  --> 
+     ***********************************************************************************************************/
     public class CUsuario // Creamos la clase en la que almacenamos datos de los usuarios
     {
         public string nombre;
@@ -35,6 +43,14 @@ namespace PROYECTO_IO
 
     }
 
+    /***********************************************************************************************************
+     * Nombre de la clase: CLista
+     * Funcionalidad: 
+     * Parametros de entrada:
+     *  --> 
+     *  --> 
+     *  --> 
+     ***********************************************************************************************************/
     public class CLista
     {
         public CUsuario[] usuarios;
@@ -46,7 +62,7 @@ namespace PROYECTO_IO
          * Nombre de la función: PNGtoMATRIZ
          * Funcionalidad: abre una imagen en formato .png o .jpg y la convierte a una matriz de clase Pixel
          * Parametros de entrada:
-         *  --> imageName: String que contiene el nombre de la imagen a abrir. Debe incluir el .png o .jpg
+         *  --> fotoelegida: String que contiene el nombre de la imagen a abrir. Debe incluir el .png o .jpg
          *  Devuelve:
          *  --> Matriz de clase Pixel: donde cada Pixel contiene los valores R, G y B de cada pixel de la imagen original. 
          *         La forma de la matriz es [anchura, altura]. La posición [0,0] representa el valor de arriba a la izquierda y 
@@ -78,7 +94,7 @@ namespace PROYECTO_IO
          * Nombre de la función: MATRIZtoPNG
          * Funcionalidad: recibe una matriz de clase Pixel y un nombre de archivo y guarda la imagen en formato .png o .jpg
          * Parametros de entrada:
-         *  --> image: Matriz de clase Pixel. Cada Pixel debe contener los valores R, G y B que se visualizarán en la imagen a guardar.
+         *  --> inimage: Matriz de clase Pixel. Cada Pixel debe contener los valores R, G y B que se visualizarán en la imagen a guardar.
          *              La forma de la matriz debe ser [anchura, altura], donde anchura y altura son el tamaño de la imagen en los ejes X e Y.
          *              La posición [0,0] representa el valor de arriba a la izquierda y 
          *              la posición [anchura,altura] el valor de abajo a la derecha de la imagen original.
@@ -87,7 +103,7 @@ namespace PROYECTO_IO
          *  --> True: Si se ha podido guardar la imagen
          *  --> False: Si no se ha podido guardar la imagen.
          ***********************************************************************************************************/
-        static bool MATRIZtoPNG(CPixel[,] inimage, string filename) //De matriz result a .png
+        static bool MATRIZtoPNG(CPixel[,] inimage, string filename) //De matriz inimage a .png
         {
             if (inimage != null && filename != null)
             {
@@ -110,11 +126,10 @@ namespace PROYECTO_IO
          * Nombre de la función: reverse
          * Funcionalidad: recibe una matriz de clase Pixel y devuelve una matriz de clase Pixel con los valores espejo.
          * Parametros de entrada:
-         *  --> Image: Matriz de clase Pixel. Cada Pixel debe contener los valores R, G y B.
+         *  --> inimage: Matriz de clase Pixel. Cada Pixel debe contener los valores R, G y B.
          *              La forma de la matriz debe ser [anchura, altura], donde anchura y altura son el tamaño de la imagen en los ejes X e Y.
          *              La posición [0,0] representa el valor de arriba a la izquierda y 
-         *              la posición [anchura,altura] el valor de abajo a la derecha de la imagen original.
-         *
+         *              la posición [anchura,altura] el valor de abajo a la derecha de la imagen original.         
          *  Devuelve:
          *  --> Matriz de clase Pixel. Cada Pixel contiene los valores R, G y B.
          *              La forma de la matriz es la misma que la matriz de entrada
@@ -146,7 +161,18 @@ namespace PROYECTO_IO
             return result;
         }
 
-        // Enmarca la foto con un color negro
+       /***********************************************************************************************************
+         * Nombre de la función: enmarcar
+         * Funcionalidad: 
+         * Parametros de entrada:
+         *  --> inimage: Matriz de clase Pixel. Cada Pixel debe contener los valores R, G y B que se visualizarán en la imagen a guardar.
+         *              La forma de la matriz debe ser [anchura, altura], donde anchura y altura son el tamaño de la imagen en los ejes X e Y.
+         *              La posición [0,0] representa el valor de arriba a la izquierda y 
+         *              la posición [anchura,altura] el valor de abajo a la derecha de la imagen original.
+         *  Devuelve:
+         *  --> 
+         *  --> 
+         ***********************************************************************************************************/
         static CPixel[,] enmarcar(CPixel[,] inimage)
         {
             CPixel[,] result = null;
@@ -157,7 +183,6 @@ namespace PROYECTO_IO
                 result = new CPixel[width, height];
                 int j, i;
                 result = inimage;
-
                 CPixel colorRojo = new CPixel(255, 0, 0);
 
                 for (i = 0; i < width; i++)
@@ -175,11 +200,23 @@ namespace PROYECTO_IO
             return result;
         }
 
+        /***********************************************************************************************************
+         * Nombre de la función: cambiocolor
+         * Funcionalidad: 
+         * Parametros de entrada:
+         *  --> inimage: Matriz de clase Pixel. Cada Pixel debe contener los valores R, G y B que se visualizarán en la imagen a guardar.
+         *              La forma de la matriz debe ser [anchura, altura], donde anchura y altura son el tamaño de la imagen en los ejes X e Y.
+         *              La posición [0,0] representa el valor de arriba a la izquierda y 
+         *              la posición [anchura,altura] el valor de abajo a la derecha de la imagen original.
+         *  --> color: 
+         *  Devuelve:
+         *  --> 
+         *  --> 
+         ***********************************************************************************************************/
         static CPixel[,] cambiocolor(CPixel[,] inimage, string color)
         {
             CPixel[,] result = null;
             
-            //cambio color
             if (inimage != null)
             {
                 int width, height;
@@ -187,7 +224,6 @@ namespace PROYECTO_IO
                 height = inimage.GetLength(1);
                 result = new CPixel[width, height];
                 result = inimage;
-
                 CPixel colores = null;
 
                 if (color == "rojo")
@@ -200,12 +236,9 @@ namespace PROYECTO_IO
                             result[i, j] = new CPixel(col.R, col.G, col.B);
                         }
                     }
-
-
                 }
                 else if (color == "verde")
                 {
-
                     CPixel col = new CPixel(5, 240, 0);
                     for (int i = 0; i < height; i++)
                     {
@@ -214,7 +247,6 @@ namespace PROYECTO_IO
                             result[i, j] = new CPixel(col.R, col.G, col.B);
                         }
                     }
-
                 }
                 else if (color == "azul")
                 {
@@ -226,15 +258,25 @@ namespace PROYECTO_IO
                             result[i, j] = new CPixel(col.R, col.G, col.B);
                         }
                     }
-
                 }
-                
                 return result;
             }
             return result;
         }
 
-
+        /***********************************************************************************************************
+         * Nombre de la función: collage
+         * Funcionalidad: 
+         * Parametros de entrada:
+         *  --> inimage: Matriz de clase Pixel. Cada Pixel debe contener los valores R, G y B que se visualizarán en la imagen a guardar.
+         *              La forma de la matriz debe ser [anchura, altura], donde anchura y altura son el tamaño de la imagen en los ejes X e Y.
+         *              La posición [0,0] representa el valor de arriba a la izquierda y 
+         *              la posición [anchura,altura] el valor de abajo a la derecha de la imagen original.
+         *  --> inimage2
+         *  Devuelve:
+         *  --> 
+         *  --> 
+         ***********************************************************************************************************/
         public static CPixel[,] collage(CPixel[,] inimage, CPixel[,] inimage2, CPixel[,] inimage3, CPixel[,] inimage4)
         {
             CPixel[,] result = null;
@@ -244,7 +286,6 @@ namespace PROYECTO_IO
                 // Verifica que las dimensiones de todas las imágenes sean iguales
                 int height = inimage.GetLength(0);
                 int width = inimage.GetLength(1);
-
 
                 if (height != inimage2.GetLength(0) || width != inimage2.GetLength(1) ||
                     height != inimage3.GetLength(0) || width != inimage3.GetLength(1) ||
@@ -257,18 +298,26 @@ namespace PROYECTO_IO
                     {
                         for (int j = 0; j < width; j++)
                         {
-                            result[i, j] = MediaPixel(inimage[i, j], inimage2[i, j], inimage3[i, j], inimage4[i, j]);
+                            result[i, j] = mediapixel(inimage[i, j], inimage2[i, j], inimage3[i, j], inimage4[i, j]);
                         }
                     }
-
                     return result;
                 }
             }
             return result;
         }
 
-
-        public static CPixel MediaPixel(CPixel pixel1, CPixel pixel2, CPixel pixel3, CPixel pixel4)
+        /***********************************************************************************************************
+         * Nombre de la función: mediapixel
+         * Funcionalidad: 
+         * Parametros de entrada:
+         *  --> pixel1: 
+         *  --> pixel2:
+         *  Devuelve:
+         *  --> 
+         *  --> 
+         ***********************************************************************************************************/
+        public static CPixel mediapixel(CPixel pixel1, CPixel pixel2, CPixel pixel3, CPixel pixel4)
         {
             int averageRed = (pixel1.R + pixel2.R + pixel3.R + pixel4.R) / 4;
             int averageGreen = (pixel1.G + pixel2.G + pixel3.G + pixel4.G) / 4;
@@ -277,8 +326,12 @@ namespace PROYECTO_IO
             return new CPixel(averageRed, averageGreen, averageBlue);
         }
 
-
-
+        /***********************************************************************************************************
+         * Nombre de la función: menu
+         * Funcionalidad: 
+         * Devuelve:
+         *  --> 
+         ***********************************************************************************************************/
         static void menu() //Menu
         {
             Console.WriteLine("Qué operación quieres realizar?");
@@ -298,14 +351,13 @@ namespace PROYECTO_IO
 
             Console.WriteLine("Introduce usuario");
             usuario = Console.ReadLine();
-            
+
             Console.WriteLine("Introduce correo");
             correo = Console.ReadLine();
             
             Console.WriteLine("Contraseña, por favor");
             contraseña = Console.ReadLine();
             
-
             CUsuario us = new CUsuario();
             us.nombre = usuario;
             us.correo = correo;
@@ -314,8 +366,6 @@ namespace PROYECTO_IO
             Console.WriteLine("Qué imagen quieres manipular?"); // Comprobamos si la imagen que nos da el usuario existe
             fotoelegida = Console.ReadLine();
             CPixel[,] inimage = PNGtoMATRIZ(fotoelegida);
-
-
 
             if (inimage != null)
             {
@@ -342,7 +392,6 @@ namespace PROYECTO_IO
                                 }
                             }
                             break;
-
 
                         case 2:
                             Console.WriteLine("Para el collage necesito 3 fotos mas tio");
@@ -387,7 +436,7 @@ namespace PROYECTO_IO
                             break;
 
                         case 4:
-                            Console.WriteLine("Espera un segundin mientras invierto la foto...");
+                            Console.WriteLine("Espera un segundín mientras invierto la foto...");
                             reverse(inimage);
                             if (reverse(inimage) != null)
                             {
@@ -409,10 +458,9 @@ namespace PROYECTO_IO
             }
             else
             {
-                Console.WriteLine("No se pudo cargar la imagen");
+                Console.WriteLine("No se pudo cargar la imagen jodeeeeeer");
             }
 
-            
             Console.WriteLine("Hasta otra! :)");
             Console.ReadKey();
         }
