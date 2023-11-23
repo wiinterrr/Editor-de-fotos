@@ -202,16 +202,15 @@ namespace PROYECTO_IO
 
         /***********************************************************************************************************
          * Nombre de la función: cambiocolor
-         * Funcionalidad: 
+         * Funcionalidad: Cambiar el valor de los pixeles de la foto
          * Parametros de entrada:
          *  --> inimage: Matriz de clase Pixel. Cada Pixel debe contener los valores R, G y B que se visualizarán en la imagen a guardar.
          *              La forma de la matriz debe ser [anchura, altura], donde anchura y altura son el tamaño de la imagen en los ejes X e Y.
          *              La posición [0,0] representa el valor de arriba a la izquierda y 
          *              la posición [anchura,altura] el valor de abajo a la derecha de la imagen original.
-         *  --> color: 
+         *  --> color: rojo, verde o azul
          *  Devuelve:
-         *  --> 
-         *  --> 
+         *  --> matriz result con los pixeles cambiados
          ***********************************************************************************************************/
 
         static CPixel[,] cambiocolor(CPixel[,] inimage, string color)
@@ -224,7 +223,7 @@ namespace PROYECTO_IO
                 width = inimage.GetLength(0);
                 height = inimage.GetLength(1);
                 result = inimage;
-                inimage = new CPixel[width, height];
+                //inimage = new CPixel[width, height]; //hace falta?
 
                 if(color == "rojo")
                 {
@@ -242,7 +241,6 @@ namespace PROYECTO_IO
                             {
                                 result[i, j] = new CPixel(rojo + 50, verde, azul);
                             }
-
                         }
                     }
                 }
@@ -262,7 +260,6 @@ namespace PROYECTO_IO
                             {
                                 result[i, j] = new CPixel(rojo, verde + 50, azul);
                             }
-
                         }
                     }
                 }
@@ -282,7 +279,6 @@ namespace PROYECTO_IO
                             {
                                 result[i, j] = new CPixel(rojo, verde, azul + 50);
                             }
-
                         }
                     }
                 }
@@ -293,16 +289,17 @@ namespace PROYECTO_IO
 
         /***********************************************************************************************************
          * Nombre de la función: collage
-         * Funcionalidad: 
+         * Funcionalidad: Crear un collage con cuatro fotos
          * Parametros de entrada:
          *  --> inimage: Matriz de clase Pixel. Cada Pixel debe contener los valores R, G y B que se visualizarán en la imagen a guardar.
          *              La forma de la matriz debe ser [anchura, altura], donde anchura y altura son el tamaño de la imagen en los ejes X e Y.
          *              La posición [0,0] representa el valor de arriba a la izquierda y 
          *              la posición [anchura,altura] el valor de abajo a la derecha de la imagen original.
          *  --> inimage2
+         *  --> inimage3
+         *  --> inimage4
          *  Devuelve:
-         *  --> 
-         *  --> 
+         *  --> la matriz resultado
          ***********************************************************************************************************/
         public static CPixel[,] collage(CPixel[,] inimage, CPixel[,] inimage2, CPixel[,] inimage3, CPixel[,] inimage4)
         {
@@ -343,8 +340,7 @@ namespace PROYECTO_IO
          *  --> pixel3:
          *  --> pixel4:
          *  Devuelve:
-         *  --> 
-         *  --> 
+         *  --> Nueva Clase CPixel con valores RGB
          ***********************************************************************************************************/
         public static CPixel mediapixel(CPixel pixel1, CPixel pixel2, CPixel pixel3, CPixel pixel4)
         {
@@ -357,11 +353,12 @@ namespace PROYECTO_IO
 
         /***********************************************************************************************************
          * Nombre de la función: menu
-         * Funcionalidad: 
+         * Funcionalidad: Mostrar al usuario las opciones que tiene disponibles y sus respectivos codigos
          * Devuelve:
-         *  --> 
+         *  --> 1 linea en la consola con la pregunta de qué operacion se quiere realizar
+         *  --> 5 líneas en la consola, cada una con una operacion
          ***********************************************************************************************************/
-        static void menu() //Menu
+        static void menu()
         {
             Console.WriteLine("Qué operación quieres realizar?");
             Console.WriteLine("0: Terminar");
@@ -396,6 +393,7 @@ namespace PROYECTO_IO
             escritura.WriteLine("Usuario: " + usuario);
             escritura.WriteLine("Correo: " + correo);
             escritura.WriteLine("Contraseña: " + contraseña);
+            escritura.Close();
 
             Console.WriteLine("Qué imagen quieres manipular?");
             fotoelegida = Console.ReadLine();
