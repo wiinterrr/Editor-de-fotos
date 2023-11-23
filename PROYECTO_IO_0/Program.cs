@@ -396,8 +396,8 @@ namespace PROYECTO_IO
             escritura.WriteLine(" ");
             
             Console.WriteLine("Qué imagen quieres manipular?");
-            escritura.WriteLine("Foto elegida: " + fotoelegida);
             fotoelegida = Console.ReadLine();
+            escritura.WriteLine("Foto elegida: " + fotoelegida);
             CPixel[,] inimage = PNGtoMATRIZ(fotoelegida);
 
             escritura.WriteLine(" ");
