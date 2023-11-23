@@ -491,7 +491,6 @@ namespace PROYECTO_IO
             }
 
             Console.WriteLine("Hasta otra! :)");
-            Console.ReadKey();
         }
     }
 }
