@@ -147,13 +147,13 @@ namespace PROYECTO_IO
                 width = inimage.GetLength(0);
                 height = inimage.GetLength(1);
                 result = new CPixel[width, height];
-                int j, i;
 
-                for (i = 0; i < width; i++)
+                for (int i = 0; i < width; i++)
                 {
-                    for (j = 0; j < height; j++)
+                    for (int j = 0; j < height; j++)
                     {
-                        result[i, j] = inimage[width - i - 1, j]; // Igualar al lado opuesto
+                    // igualar al lado opuesto
+                    result[i, j] = inimage[width - i - 1, j];
                     }
                 }
                 return result;
