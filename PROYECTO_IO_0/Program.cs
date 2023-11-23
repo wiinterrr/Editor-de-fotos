@@ -116,7 +116,7 @@ namespace PROYECTO_IO
                         outimage.SetPixel(i, j, Color.FromArgb(inimage[i, j].R, inimage[i, j].G, inimage[i, j].B));
                     }
                 }
-                outimage.Save(filename); // Guardar la imagen
+                outimage.Save("editada" + filename); // Guardar la imagen
                 return true;
             }
             return false;
