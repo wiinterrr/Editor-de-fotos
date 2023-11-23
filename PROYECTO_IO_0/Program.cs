@@ -291,8 +291,6 @@ namespace PROYECTO_IO
             return result;
         }
 
- 
-
         /***********************************************************************************************************
          * Nombre de la función: collage
          * Funcionalidad: 
