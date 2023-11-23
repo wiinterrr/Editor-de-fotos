@@ -393,15 +393,15 @@ namespace PROYECTO_IO
             escritura.WriteLine("Usuario: " + usuario);
             escritura.WriteLine("Correo: " + correo);
             escritura.WriteLine("Contraseña: " + contraseña);
-            escritura.WriteLine(" ");
+            escritura.WriteLine("");
             
             Console.WriteLine("Qué imagen quieres manipular?");
             fotoelegida = Console.ReadLine();
             escritura.WriteLine("Foto elegida: " + fotoelegida);
             CPixel[,] inimage = PNGtoMATRIZ(fotoelegida);
 
-            escritura.WriteLine(" ");
-            escritura.WriteLine("Historial de operaciones");
+            escritura.WriteLine("");
+            escritura.WriteLine("Historial de operaciones:");
 
             if (inimage != null)
             {
@@ -446,7 +446,7 @@ namespace PROYECTO_IO
                             fotoelegida4 = Console.ReadLine();
                             escritura.WriteLine("4 foto elegida: " + fotoelegida4);
                             CPixel[,] inimage4 = PNGtoMATRIZ(fotoelegida4);
-                            escritura.WriteLine(" ");
+                            escritura.WriteLine("");
                             
                             CPixel[,] fotocollage = collage(inimage, inimage2, inimage3, inimage4);
 
