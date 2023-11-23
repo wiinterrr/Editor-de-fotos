@@ -116,7 +116,7 @@ namespace PROYECTO_IO
                         outimage.SetPixel(i, j, Color.FromArgb(inimage[i, j].R, inimage[i, j].G, inimage[i, j].B));
                     }
                 }
-                outimage.Save("editada" + filename); // Guardar la imagen
+                outimage.Save("editada " + filename); // Guardar la imagen
                 return true;
             }
             return false;
@@ -182,7 +182,7 @@ namespace PROYECTO_IO
                 int height = inimage.GetLength(1);
                 int j, i;
                 result = inimage;
-                CPixel colorRojo = new CPixel(255, 0, 0);
+                CPixel colorRojo = new CPixel(155, 100, 50);
 
                 for (i = 0; i < width; i++)
                 {
@@ -342,6 +342,8 @@ namespace PROYECTO_IO
          * Parametros de entrada:
          *  --> pixel1: 
          *  --> pixel2:
+         *  --> pixel3:
+         *  --> pixel4:
          *  Devuelve:
          *  --> 
          *  --> 
@@ -392,7 +394,12 @@ namespace PROYECTO_IO
             us.correo = correo;
             us.contraseña = contraseña;
 
-            Console.WriteLine("Qué imagen quieres manipular?"); // Comprobamos si la imagen que nos da el usuario existe
+            StreamWriter escritura = new StreamWriter(usuario + ".txt");
+            escritura.WriteLine("Usuario: " + usuario);
+            escritura.WriteLine("Correo: " + correo);
+            escritura.WriteLine("Contraseña: " + contraseña);
+
+            Console.WriteLine("Qué imagen quieres manipular?");
             fotoelegida = Console.ReadLine();
             CPixel[,] inimage = PNGtoMATRIZ(fotoelegida);
 
