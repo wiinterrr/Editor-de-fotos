@@ -378,6 +378,9 @@ namespace PROYECTO_IO
             Console.WriteLine("Introduce usuario");
             usuario = Console.ReadLine();
 
+            // Obtiene la fecha y hora actuales y las formatea
+            string fecha = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+
             Console.WriteLine("Introduce correo");
             correo = Console.ReadLine();
 
@@ -390,6 +393,7 @@ namespace PROYECTO_IO
             us.contraseña = contraseña;
 
             StreamWriter escritura = new StreamWriter(usuario + ".txt");
+            escritura.WriteLine("Fecha de la edición: " + fecha);
             escritura.WriteLine("Usuario: " + usuario);
             escritura.WriteLine("Correo: " + correo);
             escritura.WriteLine("Contraseña: " + contraseña);
