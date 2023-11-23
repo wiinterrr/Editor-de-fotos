@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO; // para poder operar con archivos
 using System.Drawing; // para poder operar con fotos
+using System.Drawing.Imaging;
 
 namespace PROYECTO_IO
 {
@@ -212,18 +213,9 @@ namespace PROYECTO_IO
          *  --> 
          *  --> 
          ***********************************************************************************************************/
-        static CPixel[,] cambiocolor(CPixel[,] inimage, string color)
-        {
-            CPixel[,] result = null;
 
-            if (inimage != null)
-            {
-                int width, height, rojo, verde, azul;
-                width = inimage.GetLength(0);
-                height = inimage.GetLength(1);
-                result = inimage;
-
-                for (int i = 0; i < height; i++)
+        /*
+         for (int i = 0; i < height; i++)
                 {
                     for (int j = 0; j < width; j++)
                     {
@@ -247,9 +239,42 @@ namespace PROYECTO_IO
                         }
                     }
                 }
+         
+         
+         
+         */
+
+
+
+        static CPixel[,] cambiocolor(CPixel[,] inimage, string color)
+        {
+            CPixel[,] result = null;
+
+            if (inimage != null)
+            {
+                int width, height, rojo, verde, azul;
+                width = inimage.GetLength(0);
+                height = inimage.GetLength(1);
+                result = inimage;
+
+                CPixel colores = null;
+                
+                if(color == "rojo")
+                {
+                    colores = new CPixel(255, 0, 0);
+                    for(int i  = 0; i < width; i++)
+                    {
+                        for(int j = 0;j < height; j++)
+                        {
+                            CPixel 
+                            result[i, j] = new CPixel(colores.R, colores.G, colores.B);
+                        }
+                    }
+                }
+
                 return result;
             }
-            return null;
+            return result;
         }
 
         /***********************************************************************************************************
