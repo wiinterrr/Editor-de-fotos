@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO; // para poder operar con archivos
 using System.Drawing; // para poder operar con fotos
-using System.Drawing.Imaging;
 
 namespace PROYECTO_IO
 {
@@ -161,18 +160,18 @@ namespace PROYECTO_IO
             return result;
         }
 
-       /***********************************************************************************************************
-         * Nombre de la función: enmarcar
-         * Funcionalidad: 
-         * Parametros de entrada:
-         *  --> inimage: Matriz de clase Pixel. Cada Pixel debe contener los valores R, G y B que se visualizarán en la imagen a guardar.
-         *              La forma de la matriz debe ser [anchura, altura], donde anchura y altura son el tamaño de la imagen en los ejes X e Y.
-         *              La posición [0,0] representa el valor de arriba a la izquierda y 
-         *              la posición [anchura,altura] el valor de abajo a la derecha de la imagen original.
-         *  Devuelve:
-         *  --> 
-         *  --> 
-         ***********************************************************************************************************/
+        /***********************************************************************************************************
+          * Nombre de la función: enmarcar
+          * Funcionalidad: 
+          * Parametros de entrada:
+          *  --> inimage: Matriz de clase Pixel. Cada Pixel debe contener los valores R, G y B que se visualizarán en la imagen a guardar.
+          *              La forma de la matriz debe ser [anchura, altura], donde anchura y altura son el tamaño de la imagen en los ejes X e Y.
+          *              La posición [0,0] representa el valor de arriba a la izquierda y 
+          *              la posición [anchura,altura] el valor de abajo a la derecha de la imagen original.
+          *  Devuelve:
+          *  --> 
+          *  --> 
+          ***********************************************************************************************************/
         static CPixel[,] enmarcar(CPixel[,] inimage)
         {
             CPixel[,] result = null;
@@ -180,7 +179,6 @@ namespace PROYECTO_IO
             {
                 int width = inimage.GetLength(0);
                 int height = inimage.GetLength(1);
-                result = new CPixel[width, height];
                 int j, i;
                 result = inimage;
                 CPixel colorRojo = new CPixel(255, 0, 0);
@@ -217,49 +215,41 @@ namespace PROYECTO_IO
         static CPixel[,] cambiocolor(CPixel[,] inimage, string color)
         {
             CPixel[,] result = null;
-            
+
             if (inimage != null)
             {
-                int width, height;
+                int width, height, rojo, verde, azul;
                 width = inimage.GetLength(0);
                 height = inimage.GetLength(1);
-                result = new CPixel[width, height];
                 result = inimage;
-                CPixel colores = null;
 
-                if (color == "rojo")
+                for (int i = 0; i < height; i++)
                 {
-                    for (int i = 0; i < height; i++)
+                    for (int j = 0; j < width; j++)
                     {
-                        for (int j = 0; j < width; j++)
+                        CPixel pix = inimage[i, j];
+                        rojo = pix.R;
+                        verde = pix.G;
+                        azul = pix.B;
+                        CPixel col = new CPixel(rojo, verde, azul);
+
+                        if(color == "rojo")
                         {
-                            result[i, j] = CPixel inimage(R + 30, G, B);
+                            result[i,j] = new CPixel(col.R + 30, col.G, col.B);
                         }
-                    }
-                }
-                else if (color == "verde")
-                {
-                    for (int i = 0; i < height; i++)
-                    {
-                        for (int j = 0; j < width; j++)
+                        else if(color == "verde")
                         {
-                            result[i, j] = new CPixel(R, G + 30, B);
+                            result[i, j] = new CPixel(col.R, col.G + 30, col.B);
                         }
-                    }
-                }
-                else if (color == "azul")
-                {
-                    for (int i = 0; i < height; i++)
-                    {
-                        for (int j = 0; j < width; j++)
+                        else if(color == "azul")
                         {
-                            result[i, j] = new CPixel(R, G, B + 30);
+                            result[i, j] = new CPixel(col.R, col.G, col.B + 30);
                         }
                     }
                 }
                 return result;
             }
-            return result;
+            return null;
         }
 
         /***********************************************************************************************************
@@ -352,10 +342,10 @@ namespace PROYECTO_IO
 
             Console.WriteLine("Introduce correo");
             correo = Console.ReadLine();
-            
+
             Console.WriteLine("Contraseña, por favor");
             contraseña = Console.ReadLine();
-            
+
             CUsuario us = new CUsuario();
             us.nombre = usuario;
             us.correo = correo;
