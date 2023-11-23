@@ -189,9 +189,10 @@ namespace PROYECTO_IO
                 {
                     for (j = 0; j < height; j++)
                     {
-                        if (i == 0 || i == width - 1 || j == 0 || j == height - 1) // verificamos si estamos en los bordes
+                        if (i <= 10 || i >= width - 11 || j <= 10 || j >= height - 11) // verificamos si estamos en donde queremos enmarcar
                         {
                             result[i, j] = new CPixel(colorRojo.R, colorRojo.G, colorRojo.B);
+                            //Hacer que calcule la altura de la imagen y que el marco opcupe el 20% de los pixeles de la altura
                         }
                     }
                 }
@@ -228,34 +229,31 @@ namespace PROYECTO_IO
 
                 if (color == "rojo")
                 {
-                    CPixel col = new CPixel(249, 20, 0);
                     for (int i = 0; i < height; i++)
                     {
                         for (int j = 0; j < width; j++)
                         {
-                            result[i, j] = new CPixel(col.R, col.G, col.B);
+                            result[i, j] = CPixel inimage(R + 30, G, B);
                         }
                     }
                 }
                 else if (color == "verde")
                 {
-                    CPixel col = new CPixel(5, 240, 0);
                     for (int i = 0; i < height; i++)
                     {
                         for (int j = 0; j < width; j++)
                         {
-                            result[i, j] = new CPixel(col.R, col.G, col.B);
+                            result[i, j] = new CPixel(R, G + 30, B);
                         }
                     }
                 }
                 else if (color == "azul")
                 {
-                    CPixel col = new CPixel(55, 11, 229);
                     for (int i = 0; i < height; i++)
                     {
                         for (int j = 0; j < width; j++)
                         {
-                            result[i, j] = new CPixel(col.R, col.G, col.B);
+                            result[i, j] = new CPixel(R, G, B + 30);
                         }
                     }
                 }
