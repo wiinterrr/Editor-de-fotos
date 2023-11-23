@@ -393,11 +393,15 @@ namespace PROYECTO_IO
             escritura.WriteLine("Usuario: " + usuario);
             escritura.WriteLine("Correo: " + correo);
             escritura.WriteLine("Contraseña: " + contraseña);
-            escritura.Close();
-
+            escritura.WriteLine(" ");
+            
             Console.WriteLine("Qué imagen quieres manipular?");
+            escritura.WriteLine("Foto elegida: " + fotoelegida);
             fotoelegida = Console.ReadLine();
             CPixel[,] inimage = PNGtoMATRIZ(fotoelegida);
+
+            escritura.WriteLine(" ");
+            escritura.WriteLine("Historial de operaciones");
 
             if (inimage != null)
             {
@@ -409,10 +413,12 @@ namespace PROYECTO_IO
                     switch (opcion)
                     {
                         case 0:
+                            escritura.WriteLine("Terminar");
                             Console.WriteLine("Terminando Programa");
                             break;
 
                         case 1:
+                            escritura.WriteLine("Enmarcar");
                             Console.WriteLine("Enmarcando de color rojo...");
                             enmarcar(inimage);
                             if (enmarcar(inimage) != null)
@@ -426,17 +432,22 @@ namespace PROYECTO_IO
                             break;
 
                         case 2:
-                            Console.WriteLine("Para el collage necesito 3 fotos mas tio");
+                            escritura.WriteLine("Collage");
+                            Console.WriteLine("Para el collage necesito 3 fotos más tío");
                             Console.WriteLine("El nombre de la segunda foto tio");
                             fotoelegida2 = Console.ReadLine();
                             CPixel[,] inimage2 = PNGtoMATRIZ(fotoelegida2);
+                            escritura.WriteLine("4 foto elegida: " + fotoelegida2);
                             Console.WriteLine("El nombre de la tercera foto tio");
                             fotoelegida3 = Console.ReadLine();
+                            escritura.WriteLine("4 foto elegida: " + fotoelegida3);
                             CPixel[,] inimage3 = PNGtoMATRIZ(fotoelegida3);
                             Console.WriteLine("El nombre de la cuarta foto tio");
                             fotoelegida4 = Console.ReadLine();
+                            escritura.WriteLine("4 foto elegida: " + fotoelegida4);
                             CPixel[,] inimage4 = PNGtoMATRIZ(fotoelegida4);
-
+                            escritura.WriteLine(" ");
+                            
                             CPixel[,] fotocollage = collage(inimage, inimage2, inimage3, inimage4);
 
                             if (collage(inimage, inimage2, inimage3, inimage4) != null)
@@ -452,6 +463,7 @@ namespace PROYECTO_IO
                             break;
 
                         case 3:
+                            escritura.WriteLine("Cambiar color");
                             Console.WriteLine("¿Quieres cambiar a rojo, verde o azul?: ");
                             colorelegido = Console.ReadLine().ToLower();
 
@@ -468,6 +480,7 @@ namespace PROYECTO_IO
                             break;
 
                         case 4:
+                            escritura.WriteLine("Inversión");
                             Console.WriteLine("Espera un segundín mientras invierto la foto...");
                             reverse(inimage);
                             if (reverse(inimage) != null)
@@ -481,6 +494,7 @@ namespace PROYECTO_IO
                             break;
 
                         default:
+                            escritura.WriteLine("Error en código de operación");
                             Console.WriteLine("Código de operacion incorrecto chavalín");
                             break;
                     }
@@ -492,8 +506,9 @@ namespace PROYECTO_IO
             {
                 Console.WriteLine("No se pudo cargar la imagen jodeeeeeer");
             }
-
-            Console.WriteLine("Hasta otra! :)");
+            escritura.Close();
+            Console.WriteLine("Hasta otra! :D");
+            Console.ReadKey();
         }
     }
 }
