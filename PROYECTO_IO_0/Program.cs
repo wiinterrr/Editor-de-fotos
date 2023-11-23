@@ -214,38 +214,6 @@ namespace PROYECTO_IO
          *  --> 
          ***********************************************************************************************************/
 
-        /*
-         for (int i = 0; i < height; i++)
-                {
-                    for (int j = 0; j < width; j++)
-                    {
-                        CPixel pix = inimage[i, j];
-                        rojo = pix.R;
-                        verde = pix.G;
-                        azul = pix.B;
-                        CPixel col = new CPixel(rojo, verde, azul);
-
-                        if(color == "rojo")
-                        {
-                            result[i,j] = new CPixel(col.R + 30, col.G, col.B);
-                        }
-                        else if(color == "verde")
-                        {
-                            result[i, j] = new CPixel(col.R, col.G + 30, col.B);
-                        }
-                        else if(color == "azul")
-                        {
-                            result[i, j] = new CPixel(col.R, col.G, col.B + 30);
-                        }
-                    }
-                }
-         
-         
-         
-         */
-
-
-
         static CPixel[,] cambiocolor(CPixel[,] inimage, string color)
         {
             CPixel[,] result = null;
@@ -256,26 +224,74 @@ namespace PROYECTO_IO
                 width = inimage.GetLength(0);
                 height = inimage.GetLength(1);
                 result = inimage;
+                inimage = new CPixel[width, height];
 
-                CPixel colores = null;
-                
                 if(color == "rojo")
                 {
-                    colores = new CPixel(255, 0, 0);
                     for(int i  = 0; i < width; i++)
                     {
                         for(int j = 0;j < height; j++)
                         {
-                            CPixel 
-                            result[i, j] = new CPixel(colores.R, colores.G, colores.B);
+                            CPixel pix = result[i, j];
+                            
+                            rojo = pix.R;
+                            verde = pix.G;
+                            azul = pix.B;
+
+                            if (rojo <= 205)
+                            {
+                                result[i, j] = new CPixel(rojo + 50, verde, azul);
+                            }
+
                         }
                     }
                 }
+                if (color == "verde")
+                {
+                    for (int i = 0; i < width; i++)
+                    {
+                        for (int j = 0; j < height; j++)
+                        {
+                            CPixel pix = result[i, j];
 
+                            rojo = pix.R;
+                            verde = pix.G;
+                            azul = pix.B;
+
+                            if (verde <= 205)
+                            {
+                                result[i, j] = new CPixel(rojo, verde + 50, azul);
+                            }
+
+                        }
+                    }
+                }
+                if (color == "azul")
+                {
+                    for (int i = 0; i < width; i++)
+                    {
+                        for (int j = 0; j < height; j++)
+                        {
+                            CPixel pix = result[i, j];
+
+                            rojo = pix.R;
+                            verde = pix.G;
+                            azul = pix.B;
+
+                            if (azul <= 205)
+                            {
+                                result[i, j] = new CPixel(rojo, verde, azul + 50);
+                            }
+
+                        }
+                    }
+                }
                 return result;
             }
             return result;
         }
+
+ 
 
         /***********************************************************************************************************
          * Nombre de la función: collage
