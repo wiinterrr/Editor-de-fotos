@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO; // para poder operar con archivos
 using System.Drawing; // para poder operar con fotos
-using System.Drawing.Imaging;
 
-namespace PROYECTO_IO
+namespace EDITOR_FOTOS
 {
     /***********************************************************************************************************
      * Nombre de la clase: CPixel
@@ -56,7 +55,7 @@ namespace PROYECTO_IO
         public CUsuario[] usuarios;
     }
 
-    internal class Program
+    internal class codigo
     {
         /************************************************************************************************************************
          * Nombre de la función: PNGtoMATRIZ
