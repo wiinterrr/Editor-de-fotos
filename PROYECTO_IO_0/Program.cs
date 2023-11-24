@@ -4,6 +4,15 @@ using System.Drawing; // para poder operar con fotos
 
 namespace PROYECTO_IO
 {
+    /*
+    ToDo:
+    - Gestion de usuarios
+    - Collage
+    - Gestionar errores input
+    
+    */
+
+
     /***********************************************************************************************************
      * Nombre de la clase: CPixel
      * Funcionalidad: almacena los valores R, G y B, correspondientes al color de un pixel de una imagen
@@ -453,7 +462,7 @@ namespace PROYECTO_IO
                             
                             CPixel[,] fotocollage = collage(inimage, inimage2, inimage3, inimage4);
 
-                            if (collage(inimage, inimage2, inimage3, inimage4) != null)
+                            if (fotocollage != null)
                             {
                                 string collg = "collage.png";
                                 guardada = MATRIZtoPNG(fotocollage, collg);
@@ -488,7 +497,7 @@ namespace PROYECTO_IO
                             reverse(inimage);
                             if (reverse(inimage) != null)
                             {
-                                guardada = MATRIZtoPNG(inimage, fotoelegida);
+                                guardada = MATRIZtoPNG(reverse(inimage), fotoelegida);
                                 if (guardada == true)
                                 {
                                     Console.WriteLine("Foto guardada tio");
