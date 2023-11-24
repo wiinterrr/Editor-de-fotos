@@ -335,9 +335,6 @@ namespace PROYECTO_IO
 
 
 
-
-
-
         /***********************************************************************************************************
          * Nombre de la función: menu
          * Funcionalidad: Mostrar al usuario las opciones que tiene disponibles y sus respectivos codigos
@@ -360,6 +357,7 @@ namespace PROYECTO_IO
             Console.WriteLine(" 3: Cambiar la tonalidad de la foto");
             Console.WriteLine();
             Console.WriteLine(" 4: Invertir la imagen");
+            Console.WriteLine();
             Console.WriteLine("*********************************************************************************");
         }
 
@@ -407,15 +405,17 @@ namespace PROYECTO_IO
             while (!existe)
             {
                 try // Probamos si existe la imagen
-                {
-                    fotoelegida = Console.ReadLine();
+                {                    
                     inimage = PNGtoMATRIZ(fotoelegida);
                     existe = true; // Si no hay excepción, establecemos existe a true para salir del bucle
                 }
                 catch (ArgumentException)
                 {
                     Console.WriteLine("Error al cargar la imagen, introduce nombre de imagen de nuevo:");
+                    existe = false;
+                    fotoelegida = Console.ReadLine();
                 }
+                
             }
             escritura.WriteLine("Foto elegida: " + fotoelegida);
             inimage = PNGtoMATRIZ(fotoelegida);
@@ -446,6 +446,7 @@ namespace PROYECTO_IO
                                 guardada = MATRIZtoPNG(enmarcar(inimage), fotoelegida);
                                 if (guardada == true)
                                 {
+                                    Console.WriteLine();
                                     Console.WriteLine("Foto guardada tio");
                                 }
                             }
@@ -531,3 +532,4 @@ namespace PROYECTO_IO
         }
     }
 }
+
