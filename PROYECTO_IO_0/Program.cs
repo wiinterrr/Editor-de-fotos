@@ -310,18 +310,21 @@ namespace PROYECTO_IO
                 int height = inimage.GetLength(0);
                 int width = inimage.GetLength(1);
 
-                if (height != inimage2.GetLength(0) || width != inimage2.GetLength(1) ||
-                    height != inimage3.GetLength(0) || width != inimage3.GetLength(1) ||
-                    height != inimage4.GetLength(0) || width != inimage4.GetLength(1))
+                if (height == inimage2.GetLength(0) && width == inimage2.GetLength(1) &&
+                    height == inimage3.GetLength(0) && width == inimage3.GetLength(1) &&
+                    height == inimage4.GetLength(0) && width == inimage4.GetLength(1))
                 {
-                    result = new CPixel[height, width];
+                    result = new CPixel[height * 2, width * 2];
 
                     // Combinar las imágenes en el collage
                     for (int i = 0; i < height; i++)
                     {
                         for (int j = 0; j < width; j++)
                         {
-                            result[i, j] = mediapixel(inimage[i, j], inimage2[i, j], inimage3[i, j], inimage4[i, j]);
+                            result[i, j] = inimage[i, j];
+                            result[i + width, j] = inimage2[i, j];
+                            result[i, j + height] = inimage3[i, j];
+                            result[i + width, j + height] = inimage4[i, j];
                         }
                     }
                     return result;
@@ -330,25 +333,10 @@ namespace PROYECTO_IO
             return result;
         }
 
-        /***********************************************************************************************************
-         * Nombre de la función: mediapixel
-         * Funcionalidad: 
-         * Parametros de entrada:
-         *  --> pixel1: 
-         *  --> pixel2:
-         *  --> pixel3:
-         *  --> pixel4:
-         *  Devuelve:
-         *  --> Nueva Clase CPixel con valores RGB
-         ***********************************************************************************************************/
-        public static CPixel mediapixel(CPixel pixel1, CPixel pixel2, CPixel pixel3, CPixel pixel4)
-        {
-            int averageRed = (pixel1.R + pixel2.R + pixel3.R + pixel4.R) / 4;
-            int averageGreen = (pixel1.G + pixel2.G + pixel3.G + pixel4.G) / 4;
-            int averageBlue = (pixel1.B + pixel2.B + pixel3.B + pixel4.B) / 4;
 
-            return new CPixel(averageRed, averageGreen, averageBlue);
-        }
+
+
+
 
         /***********************************************************************************************************
          * Nombre de la función: menu
