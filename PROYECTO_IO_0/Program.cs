@@ -28,11 +28,11 @@ namespace PROYECTO_IO
 
     /***********************************************************************************************************
      * Nombre de la clase: CUsuario
-     * Funcionalidad: 
+     * Funcionalidad: Almacena el nombre, correo y contraseña que el usuario introduzca en la clase usuario.
      * Parametros de entrada:
-     *  --> 
-     *  --> 
-     *  --> 
+     *  --> nombre: string nombre
+     *  --> correo: string correo
+     *  --> contraseña: string contraseña
      ***********************************************************************************************************/
     public class CUsuario // Creamos la clase en la que almacenamos datos de los usuarios
     {
@@ -359,37 +359,50 @@ namespace PROYECTO_IO
          ***********************************************************************************************************/
         static void menu()
         {
-            Console.WriteLine("Qué operación quieres realizar?");
-            Console.WriteLine("0: Terminar");
-            Console.WriteLine("1: Enmarcar la foto");
-            Console.WriteLine("2: Hacer un collage con 4 fotos");
-            Console.WriteLine("3: Cambiar la tonalidad de la foto");
-            Console.WriteLine("4: Invertir la imagen");
+            Console.WriteLine();
+            Console.WriteLine("*********************************************************************************");
+            Console.WriteLine(" Qué operación quieres realizar?");
+            Console.WriteLine();
+            Console.WriteLine(" 0: Terminar");
+            Console.WriteLine();
+            Console.WriteLine(" 1: Enmarcar la foto");
+            Console.WriteLine();
+            Console.WriteLine(" 2: Hacer un collage con 4 fotos");
+            Console.WriteLine();
+            Console.WriteLine(" 3: Cambiar la tonalidad de la foto");
+            Console.WriteLine();
+            Console.WriteLine(" 4: Invertir la imagen");
+            Console.WriteLine("*********************************************************************************");
         }
 
         static void Main(string[] args)
         {
             string fotoelegida, fotoelegida2, fotoelegida3, fotoelegida4, colorelegido;
-            string usuario, correo, contraseña;
-            int opcion;
+            string usuario, correo, contraseña, opcion;
+            
             bool guardada;
 
+            string fecha = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"); // Obtiene la fecha y hora actuales y las formatea
+            CUsuario us = new CUsuario();
             Console.WriteLine("Introduce usuario");
             usuario = Console.ReadLine();
+            us.nombre = usuario;
 
-            // Obtiene la fecha y hora actuales y las formatea
-            string fecha = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
-
+            try
+            {
+                StreamReader lectura = new StreamReader(usuario + ".txt");
+            }
+            catch(FileNotFoundException)    
+            {      
+                
+            }
+            
             Console.WriteLine("Introduce correo");
             correo = Console.ReadLine();
-
+            us.correo = correo;
             Console.WriteLine("Contraseña, por favor");
             contraseña = Console.ReadLine();
-
-            CUsuario us = new CUsuario();
-            us.nombre = usuario;
-            us.correo = correo;
-            us.contraseña = contraseña;
+            us.contraseña = contraseña;         
 
             StreamWriter escritura = new StreamWriter(usuario + ".txt");
             escritura.WriteLine("Fecha de la edición: " + fecha);
@@ -400,27 +413,43 @@ namespace PROYECTO_IO
             
             Console.WriteLine("Qué imagen quieres manipular?");
             fotoelegida = Console.ReadLine();
-            escritura.WriteLine("Foto elegida: " + fotoelegida);
-            CPixel[,] inimage = PNGtoMATRIZ(fotoelegida);
+            CPixel[,] inimage;
 
-            escritura.WriteLine("");
+            bool existe = false;
+            while (!existe)
+            {
+                try // Probamos si existe la imagen
+                {
+                    fotoelegida = Console.ReadLine();
+                    inimage = PNGtoMATRIZ(fotoelegida);
+                    existe = true; // Si no hay excepción, establecemos existe a true para salir del bucle
+                }
+                catch (ArgumentException)
+                {
+                    Console.WriteLine("Error al cargar la imagen, introduce nombre de imagen de nuevo:");
+                }
+            }
+            escritura.WriteLine("Foto elegida: " + fotoelegida);
+            inimage = PNGtoMATRIZ(fotoelegida);
+            
+            escritura.WriteLine();
             escritura.WriteLine("Historial de operaciones:");
 
             if (inimage != null)
             {
                 menu();
-                opcion = Convert.ToInt32(Console.ReadLine());
+                opcion = Console.ReadLine();
 
-                while (opcion != 0)
+                while (opcion != "0")
                 {
                     switch (opcion)
                     {
-                        case 0:
+                        case "0":
                             escritura.WriteLine("Terminar");
                             Console.WriteLine("Terminando Programa");
                             break;
 
-                        case 1:
+                        case "1":
                             escritura.WriteLine("Enmarcar");
                             Console.WriteLine("Enmarcando de color rojo...");
                             enmarcar(inimage);
@@ -434,9 +463,9 @@ namespace PROYECTO_IO
                             }
                             break;
 
-                        case 2:
+                        case "2":
                             escritura.WriteLine("Collage");
-                            Console.WriteLine("Para el collage necesito 3 fotos más tío");
+                            Console.WriteLine("Para el collage necesito 3 fotos más tío (tienen que ser cuadradas)");
                             Console.WriteLine("El nombre de la segunda foto tio");
                             fotoelegida2 = Console.ReadLine();
                             CPixel[,] inimage2 = PNGtoMATRIZ(fotoelegida2);
@@ -465,7 +494,7 @@ namespace PROYECTO_IO
                             }
                             break;
 
-                        case 3:
+                        case "3":
                             escritura.WriteLine("Cambiar color");
                             Console.WriteLine("¿Quieres cambiar a rojo, verde o azul?: ");
                             colorelegido = Console.ReadLine().ToLower();
@@ -482,7 +511,7 @@ namespace PROYECTO_IO
                             }
                             break;
 
-                        case 4:
+                        case "4":
                             escritura.WriteLine("Inversión");
                             Console.WriteLine("Espera un segundín mientras invierto la foto...");
                             reverse(inimage);
@@ -502,7 +531,7 @@ namespace PROYECTO_IO
                             break;
                     }
                     menu();
-                    opcion = Convert.ToInt32(Console.ReadLine());
+                    opcion = Console.ReadLine();
                 }
             }
             else
@@ -510,7 +539,7 @@ namespace PROYECTO_IO
                 Console.WriteLine("No se pudo cargar la imagen jodeeeeeer");
             }
             escritura.Close();
-            Console.WriteLine("Hasta otra! :D");
+            Console.WriteLine("Hasta otra tío! :D");
         }
     }
 }
