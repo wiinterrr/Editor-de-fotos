@@ -337,7 +337,7 @@ namespace PROYECTO_IO
 
         public static bool ComprobarCuadrado(CPixel[,] inimage, CPixel[,] inimage2, CPixel[,] inimage3, CPixel[,] inimage4)
         {
-            
+           //hola 
         }
 
         /***********************************************************************************************************
