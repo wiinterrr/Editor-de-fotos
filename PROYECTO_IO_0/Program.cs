@@ -337,7 +337,15 @@ namespace PROYECTO_IO
 
         public static bool ComprobarCuadrado(CPixel[,] inimage, CPixel[,] inimage2, CPixel[,] inimage3, CPixel[,] inimage4)
         {
-           //hola 
+           if(inimage.GetLength(0) == inimage.GetLength(1) && inimage2.GetLength(0) == inimage2.GetLength(1) 
+              && inimage3.GetLength(0) == inimage3.GetLength(1) && inimage4.GetLength(0) == inimage4.GetLength(1))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /***********************************************************************************************************
@@ -460,19 +468,71 @@ namespace PROYECTO_IO
                         case "2":
                             escritura.WriteLine("Collage");
                             Console.WriteLine("Para el collage necesito 3 fotos más tío (tienen que ser cuadradas)");
+                            CPixel[,] inimage2, inimage3, inimage4;
+
                             Console.WriteLine("El nombre de la segunda foto tio");
                             fotoelegida2 = Console.ReadLine();
-                            CPixel[,] inimage2 = PNGtoMATRIZ(fotoelegida2);
-                            escritura.WriteLine("4 foto elegida: " + fotoelegida2);
+                            existe = false;
+                            while (!existe)
+                            {
+                                try // Probamos si existe la imagen
+                                {                    
+                                    inimage2 = PNGtoMATRIZ(fotoelegida2);
+                                    existe = true; // Si no hay excepción, establecemos existe a true para salir del bucle
+                                    escritura.WriteLine("4 foto elegida: " + fotoelegida2);
+                                }
+                                catch (ArgumentException)
+                                {
+                                    Console.WriteLine("Error al cargar la imagen, introduce nombre de la segunda foto de nuevo:");
+                                    existe = false;
+                                    fotoelegida2 = Console.ReadLine();
+                                }
+                                
+                            }
+                            
                             Console.WriteLine("El nombre de la tercera foto tio");
                             fotoelegida3 = Console.ReadLine();
-                            escritura.WriteLine("4 foto elegida: " + fotoelegida3);
-                            CPixel[,] inimage3 = PNGtoMATRIZ(fotoelegida3);
+                            existe = false;
+                            while (!existe)
+                            {
+                                try // Probamos si existe la imagen
+                                {                    
+                                    inimage3 = PNGtoMATRIZ(fotoelegida3);
+                                    existe = true; // Si no hay excepción, establecemos existe a true para salir del bucle
+                                    escritura.WriteLine("4 foto elegida: " + fotoelegida3);
+                                }
+                                catch (ArgumentException)
+                                {
+                                    Console.WriteLine("Error al cargar la imagen, introduce nombre de la tercera foto de nuevo:");
+                                    existe = false;
+                                    fotoelegida3 = Console.ReadLine();
+                                }
+                                
+                            }
+
                             Console.WriteLine("El nombre de la cuarta foto tio");
                             fotoelegida4 = Console.ReadLine();
-                            escritura.WriteLine("4 foto elegida: " + fotoelegida4);
-                            CPixel[,] inimage4 = PNGtoMATRIZ(fotoelegida4);
+                            existe = false;
+                            while (!existe)
+                            {
+                                try // Probamos si existe la imagen
+                                {                    
+                                    inimage4 = PNGtoMATRIZ(fotoelegida4);
+                                    existe = true; // Si no hay excepción, establecemos existe a true para salir del bucle
+                                    escritura.WriteLine("4 foto elegida: " + fotoelegida4);
+                                }
+                                catch (ArgumentException)
+                                {
+                                    Console.WriteLine("Error al cargar la imagen, introduce nombre de la cuarta foto de nuevo:");
+                                    existe = false;
+                                    fotoelegida4 = Console.ReadLine();
+                                }
+                                
+                            }
+                            
                             escritura.WriteLine("");
+
+                            
                             
                             if(ComprobarCuadrado(inimage, inimage2, inimage3, inimage4) == true)
                             {
@@ -488,8 +548,14 @@ namespace PROYECTO_IO
                                         Console.WriteLine("Foto guardada como collage.png tio");
                                     }
                                 }
-                                break;
+                                
                             }
+                            else
+                            {
+                                Console.WriteLine("No tienen son cuadrados");
+                            }
+                            break;
+
 
                         case "3":
                             escritura.WriteLine("Cambiar color");
