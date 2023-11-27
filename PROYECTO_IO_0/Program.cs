@@ -335,6 +335,11 @@ namespace PROYECTO_IO
 
 
 
+        public static bool ComprobarCuadrado(CPixel[,] inimage, CPixel[,] inimage2, CPixel[,] inimage3, CPixel[,] inimage4)
+        {
+            
+        }
+
         /***********************************************************************************************************
          * Nombre de la función: menu
          * Funcionalidad: Mostrar al usuario las opciones que tiene disponibles y sus respectivos codigos
@@ -469,19 +474,22 @@ namespace PROYECTO_IO
                             CPixel[,] inimage4 = PNGtoMATRIZ(fotoelegida4);
                             escritura.WriteLine("");
                             
-                            CPixel[,] fotocollage = collage(inimage, inimage2, inimage3, inimage4);
-
-                            if (fotocollage != null)
+                            if(ComprobarCuadrado(inimage, inimage2, inimage3, inimage4) == true)
                             {
-                                string collg = "collage.png";
-                                guardada = MATRIZtoPNG(fotocollage, collg);
+                                CPixel[,] fotocollage = collage(inimage, inimage2, inimage3, inimage4);
 
-                                if (guardada == true)
+                                if (fotocollage != null)
                                 {
-                                    Console.WriteLine("Foto guardada como collage.png tio");
+                                    string collg = "collage.png";
+                                    guardada = MATRIZtoPNG(fotocollage, collg);
+
+                                    if (guardada == true)
+                                    {
+                                        Console.WriteLine("Foto guardada como collage.png tio");
+                                    }
                                 }
+                                break;
                             }
-                            break;
 
                         case "3":
                             escritura.WriteLine("Cambiar color");
