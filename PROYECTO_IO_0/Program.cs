@@ -333,8 +333,6 @@ namespace PROYECTO_IO
             return result;
         }
 
-
-
         public static bool ComprobarCuadrado(CPixel[,] inimage, CPixel[,] inimage2, CPixel[,] inimage3, CPixel[,] inimage4)
         {
            if(inimage.GetLength(0) == inimage.GetLength(1) && inimage2.GetLength(0) == inimage2.GetLength(1) 
@@ -428,8 +426,8 @@ namespace PROYECTO_IO
                     existe = false;
                     fotoelegida = Console.ReadLine();
                 }
-                
             }
+
             escritura.WriteLine("Foto elegida: " + fotoelegida);
             inimage = PNGtoMATRIZ(fotoelegida);
             
@@ -487,7 +485,6 @@ namespace PROYECTO_IO
                                     existe = false;
                                     fotoelegida2 = Console.ReadLine();
                                 }
-                                
                             }
                             
                             Console.WriteLine("El nombre de la tercera foto tio");
@@ -507,12 +504,12 @@ namespace PROYECTO_IO
                                     existe = false;
                                     fotoelegida3 = Console.ReadLine();
                                 }
-                                
                             }
 
                             Console.WriteLine("El nombre de la cuarta foto tio");
                             fotoelegida4 = Console.ReadLine();
                             existe = false;
+
                             while (!existe)
                             {
                                 try // Probamos si existe la imagen
@@ -532,8 +529,6 @@ namespace PROYECTO_IO
                             
                             escritura.WriteLine("");
 
-                            
-                            
                             if(ComprobarCuadrado(inimage, inimage2, inimage3, inimage4) == true)
                             {
                                 CPixel[,] fotocollage = collage(inimage, inimage2, inimage3, inimage4);
@@ -548,14 +543,12 @@ namespace PROYECTO_IO
                                         Console.WriteLine("Foto guardada como collage.png tio");
                                     }
                                 }
-                                
                             }
                             else
                             {
                                 Console.WriteLine("No tienen son cuadrados");
                             }
                             break;
-
 
                         case "3":
                             escritura.WriteLine("Cambiar color");
@@ -606,4 +599,3 @@ namespace PROYECTO_IO
         }
     }
 }
-
