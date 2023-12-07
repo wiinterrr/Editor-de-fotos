@@ -345,6 +345,17 @@ namespace PROYECTO_IO
                 return false;
             }
         }
+        public static bool comprobarcuad(CPixel[,] inimage)
+        {
+            if(inimage.GetLength(0) == inimage.GetLength(1))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         /***********************************************************************************************************
          * Nombre de la función: menu
@@ -465,75 +476,104 @@ namespace PROYECTO_IO
 
                         case "2":
                             escritura.WriteLine("Collage");
-                            Console.WriteLine("Para el collage necesito 3 fotos más tío (tienen que ser cuadradas)");
-                            
-                            existe = false;
-                            Console.WriteLine("Por favor ingrese la segunda foto: ");
-                            fotoelegida2 = Console.ReadLine();
-                            Console.WriteLine("Por favor ingrese la tercera foto: ");
-                            fotoelegida3 = Console.ReadLine();
-                            Console.WriteLine("Por favor ingrese la cuarta foto: ");
-                            fotoelegida4 = Console.ReadLine();
+                            Console.WriteLine();
+                            Console.WriteLine("Comprobamos si la primera foto es cuadrada...");
+                            bool compr = comprobarcuad(inimage);
 
-                            while(!existe)
+                            if(compr == true)
                             {
-                                try
-                                {
-
-                                    inimage2 = PNGtoMATRIZ(fotoelegida2);
-                                    inimage3 = PNGtoMATRIZ(fotoelegida3);
-                                    inimage4 = PNGtoMATRIZ(fotoelegida4);
-                                    existe = true;
-                                }
-                                catch(ArgumentException)
-                                {
-                                    Console.WriteLine("No existe alguna de las imagenes");
-                                    existe = false;
-                                }
-                            }
-                            inimage2 = PNGtoMATRIZ(fotoelegida2);
-                            inimage3 = PNGtoMATRIZ(fotoelegida3);
-                            inimage4 = PNGtoMATRIZ(fotoelegida4);
-
-                            Console.WriteLine("Vamos a comprobar si son cuadrados...");
-                            
-                            bool comprobar = ComprobarCuadrado(inimage, inimage2, inimage3, inimage4);
-                            if(comprobar == true)
-                            {
-                                Console.WriteLine("Perfecto, son cuadrados");
+                                Console.WriteLine("La foto dada es cuadrada :)");
                                 Console.WriteLine();
-                                Console.WriteLine("Vamos a empezar con el collage");
+                                Console.WriteLine("Para el collage necesito 3 fotos más tío (tienen que ser cuadradas)");
+                                
+                                existe = false;
+                                Console.WriteLine("Por favor ingrese la segunda foto: ");
+                                fotoelegida2 = Console.ReadLine();
+                                Console.WriteLine("Por favor ingrese la tercera foto: ");
+                                fotoelegida3 = Console.ReadLine();
+                                Console.WriteLine("Por favor ingrese la cuarta foto: ");
+                                fotoelegida4 = Console.ReadLine();
 
-                                if(collage(inimage, inimage2, inimage3, inimage4) != null)
+                                while(true)
                                 {
-                                    string nom = "collage.png";
-                                    CPixel[,] result = collage(inimage, inimage2, inimage3, inimage4);
-                                    guardada = MATRIZtoPNG(result, nom);
-                                    if(guardada == true)
+                                    
+                                    try
                                     {
-                                        Console.WriteLine("Foto guardada tio");
 
+                                        inimage2 = PNGtoMATRIZ(fotoelegida2);
+                                        inimage3 = PNGtoMATRIZ(fotoelegida3);
+                                        inimage4 = PNGtoMATRIZ(fotoelegida4);
+                                        break;
                                     }
-                                    else
+                                    catch(ArgumentException)
                                     {
-                                        Console.WriteLine("No se ha guardado tio");
+                                        Console.WriteLine("No existe alguna de las imagenes");
+                                    }
+                                    Console.WriteLine("Por favor ingrese la segunda foto: ");
+                                    fotoelegida2 = Console.ReadLine();
+                                    Console.WriteLine("Por favor ingrese la tercera foto: ");
+                                    fotoelegida3 = Console.ReadLine();
+                                    Console.WriteLine("Por favor ingrese la cuarta foto: ");
+                                    fotoelegida4 = Console.ReadLine();
+                                }
+                                inimage2 = PNGtoMATRIZ(fotoelegida2);
+                                inimage3 = PNGtoMATRIZ(fotoelegida3);
+                                inimage4 = PNGtoMATRIZ(fotoelegida4);
+
+                                Console.WriteLine("Vamos a comprobar si son cuadrados...");
+                                
+                                bool comprobar = ComprobarCuadrado(inimage, inimage2, inimage3, inimage4);
+                                if(comprobar == true)
+                                {
+                                    Console.WriteLine("Perfecto, son cuadrados");
+                                    Console.WriteLine();
+                                    Console.WriteLine("Vamos a empezar con el collage");
+
+                                    if(collage(inimage, inimage2, inimage3, inimage4) != null)
+                                    {
+                                        string nom = "collage.png";
+                                        CPixel[,] result = collage(inimage, inimage2, inimage3, inimage4);
+                                        guardada = MATRIZtoPNG(result, nom);
+                                        if(guardada == true)
+                                        {
+                                            Console.WriteLine("Foto guardada tio");
+
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("No se ha guardado tio");
+                                        }
                                     }
                                 }
                             }
+                            else
+                            {
+                                Console.WriteLine("La foto dada no es cuadrada por lo tanto no se puede hacer el collage, ingrese otra operacion");
+                            }
+
+                            break;
+                            
                         case "3":
                             escritura.WriteLine("Cambiar color");
                             Console.WriteLine("¿Quieres cambiar a rojo, verde o azul?: ");
                             colorelegido = Console.ReadLine().ToLower();
 
-                            Console.WriteLine("Perfecto, " + colorelegido + ", manos a la obra");
-                            cambiocolor(inimage, colorelegido);
-                            if (cambiocolor(inimage, colorelegido) != null)
+                            if(colorelegido == "rojo" || colorelegido ==  "verde" || colorelegido ==  "azul")
                             {
-                                guardada = MATRIZtoPNG(cambiocolor(inimage, colorelegido), fotoelegida);
-                                if (guardada == true)
+                                Console.WriteLine("Perfecto, " + colorelegido + ", manos a la obra");
+                                cambiocolor(inimage, colorelegido);
+                                if (cambiocolor(inimage, colorelegido) != null)
                                 {
-                                    Console.WriteLine("Foto guardada tio");
+                                    guardada = MATRIZtoPNG(cambiocolor(inimage, colorelegido), fotoelegida);
+                                    if (guardada == true)
+                                    {
+                                        Console.WriteLine("Foto guardada tio");
+                                    }
                                 }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Error al elegir un color...");
                             }
                             break;
 
