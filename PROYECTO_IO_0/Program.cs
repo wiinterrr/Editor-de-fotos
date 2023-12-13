@@ -492,7 +492,6 @@ namespace PROYECTO_IO
             bool guardada;
             bool salir = false;
             CPixel[,] inimage2, inimage3, inimage4;
-            CUsuario[] usuarios = new CUsuario[3333];
             
             
             try
@@ -511,8 +510,10 @@ namespace PROYECTO_IO
             
             for(int i = 0; i<3333; i++)
             {
+                CUsuario usuarios = new CUsuario();
                 lista.usuarios[i].contraseña = "";
                 lista.usuarios[i].nombre = "";
+                lista.usuarios[i] = usuarios;
             }
             
             Console.WriteLine("Buenas!! Qué desea hacer?: ");
@@ -522,7 +523,7 @@ namespace PROYECTO_IO
             while(opcion_usuario != "0" && !salir)
             {
                 switch(opcion_usuario)
-                {
+                { 
                     case "0":
                         Console.WriteLine("Saliendo chavalin");
                         break;
