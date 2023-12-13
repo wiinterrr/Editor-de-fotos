@@ -1,8 +1,8 @@
-# Editor de fotos v0.2
+# Editor de fotos v0.3
 
-Proyecto IO Ingenieria Telecomunicaciones/Telematica Universidad Politecnica de Catalunya EETAC
-
-
+Proyecto IO
+UPC EETAC
+Ingeniería Telemática / de Sistemas de Telecomunicación
 
 Se trata de un editor de fotos .png / .jpg
 
@@ -10,4 +10,4 @@ Se puede hacer un collage con 4 fotos, invertir una foto, cambiarle el color o e
 
 Tener la foto siempre en la carpeta del proyecto /bin/debug.
 
-Disfruten del codigo :)
+Disfruten del código :)
