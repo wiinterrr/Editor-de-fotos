@@ -129,17 +129,25 @@ namespace PROYECTO_IO
 
         static int Login(CLista lista_usuarios) // Mira si existe el usuario introducido en el archivo.
         {
-            Console.WriteLine("Introduzca su nombre de usuario");
-            string usuario = Console.ReadLine();
-            Console.WriteLine("Introduzca su contraseña");
-            string contraseña = Console.ReadLine();  
-            
-            for(int i = 0; i < 3333; i++)
+            try
             {
-                if(lista_usuarios.usuarios[i].nombre == usuario && lista_usuarios.usuarios[i].contraseña == contraseña)
+                Console.WriteLine("Introduzca su nombre de usuario");
+                string usuario = Console.ReadLine();
+                Console.WriteLine("Introduzca su contraseña");
+                string contraseña = Console.ReadLine();  
+                
+                for(int i = 0; i < 3333; i++)
                 {
-                    return 1; // existe el usuario, proceder con la edicion de fotos
+                    if(lista_usuarios.usuarios[i].nombre == usuario )
+                    {
+                        return 1; // existe el usuario, proceder con la edicion de fotos
+                    }
                 }
+                return 2;
+            }
+            catch(Exception)
+            {
+               return 0; // Lista vacia
             }
             return 2; // Sale del bucle, por lo tanto no existe el usuario entonces retorna 2
         }
@@ -152,15 +160,7 @@ namespace PROYECTO_IO
             string contraseña = Console.ReadLine();
             
             if(lista != null && lista.usuarios != null)
-            {
-                for(int i = 0; i < 3333; i++)
-                {
-                    if(usuario == lista.usuarios[i].nombre && lista.usuarios[i] != null)
-                    {
-                        return 1; // el user ya existe, proceder a login
-                        
-                    }
-                }            
+            {            
                 for(int j = 0; j < 3333; j++)
                 {
                     if(lista.usuarios[j].nombre == null && lista.usuarios[j].contraseña == null) // miramos si hay algun hueco vacio
@@ -494,6 +494,7 @@ namespace PROYECTO_IO
             CPixel[,] inimage2, inimage3, inimage4;
             CUsuario[] usuarios = new CUsuario[3333];
             
+            
             try
             {
                 StreamReader lectura = new StreamReader("usuarios.txt");
@@ -507,12 +508,18 @@ namespace PROYECTO_IO
             }
 
             CLista lista = TXTaVECTOR();
-
+            
+            for(int i = 0; i<3333; i++)
+            {
+                lista.usuarios[i].contraseña = "";
+                lista.usuarios[i].nombre = "";
+            }
+            
             Console.WriteLine("Buenas!! Qué desea hacer?: ");
             minimenu();
             string opcion_usuario = Console.ReadLine();
 
-            while(opcion_usuario != "0" || salir == false)
+            while(opcion_usuario != "0" && !salir)
             {
                 switch(opcion_usuario)
                 {
@@ -527,6 +534,7 @@ namespace PROYECTO_IO
                         {
                             Console.WriteLine("Bienvenido de nuevo guapete");
                             opcion_minimenu = 1;
+                            salir = true;
                         }
                         else if(login == 2)
                         {
@@ -534,7 +542,13 @@ namespace PROYECTO_IO
                             minimenu();
                             opcion_usuario = Console.ReadLine();
                         }
-                        salir = true;
+                        else if(login == 0)
+                        {
+                            Console.WriteLine("Error, La lista de usuarios esta vacia, no puedes iniciar sesion");
+                            Console.WriteLine("Regístrese, porfavor");
+                            minimenu();
+                            opcion_usuario = Console.ReadLine();
+                        }
                         break;
 
                     case "2":
