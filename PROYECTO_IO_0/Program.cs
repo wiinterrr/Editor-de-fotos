@@ -150,25 +150,29 @@ namespace PROYECTO_IO
             string usuario = Console.ReadLine();
             Console.WriteLine("Introduzca su contraseña");
             string contraseña = Console.ReadLine();
-            lista = new CLista();
             
-            for(int i = 0; i < 3333; i++)
+            if(lista != null && lista.usuarios != null)
             {
-                if(usuario == lista.usuarios[i].nombre)
+                for(int i = 0; i < 3333; i++)
                 {
-                    return 1; // el user ya existe, proceder a login
-                }
-            }            
-            for(int j = 0; j < 3333; j++)
-            {
-                if(lista.usuarios[j].nombre == null && lista.usuarios[j].contraseña == null) // miramos si hay algun hueco vacio
+                    if(usuario == lista.usuarios[i].nombre && lista.usuarios[i] != null)
+                    {
+                        return 1; // el user ya existe, proceder a login
+                        
+                    }
+                }            
+                for(int j = 0; j < 3333; j++)
                 {
-                    lista.usuarios[j].nombre = usuario;
-                    lista.usuarios[j].contraseña = contraseña;
-                    return 2; //podemos guardar el user en este espacio, proceder a escribir el user en ese vector y a la edicion de fotos
+                    if(lista.usuarios[j].nombre == null && lista.usuarios[j].contraseña == null) // miramos si hay algun hueco vacio
+                    {
+                        lista.usuarios[j].nombre = usuario;
+                        lista.usuarios[j].contraseña = contraseña;
+                        return 2; //podemos guardar el user en este espacio, proceder a escribir el user en ese vector y a la edicion de fotos
+                    }
                 }
+                return 0; //no tenemos espacio lo sentimos, cerrar programa
             }
-            return 0; //no tenemos espacio lo sentimos, cerrar programa
+            return 3; // la lista es null, no hay nada en el fichero
         }
         
         static CLista TXTaVECTOR() 
@@ -486,6 +490,7 @@ namespace PROYECTO_IO
             string usuario, contraseña, opcion;
             int opcion_minimenu;
             bool guardada;
+            bool salir = false;
             CPixel[,] inimage2, inimage3, inimage4;
             CUsuario[] usuarios = new CUsuario[3333];
             
@@ -506,8 +511,8 @@ namespace PROYECTO_IO
             Console.WriteLine("Buenas!! Qué desea hacer?: ");
             minimenu();
             string opcion_usuario = Console.ReadLine();
-            
-            while(opcion_usuario != "0")
+
+            while(opcion_usuario != "0" || salir == false)
             {
                 switch(opcion_usuario)
                 {
@@ -529,6 +534,7 @@ namespace PROYECTO_IO
                             minimenu();
                             opcion_usuario = Console.ReadLine();
                         }
+                        salir = true;
                         break;
 
                     case "2":
@@ -554,6 +560,7 @@ namespace PROYECTO_IO
                         {
                             Console.WriteLine("Vaya vaya tío, error inesperado");
                         }
+                        salir = true;
                         break;
 
                     default:
