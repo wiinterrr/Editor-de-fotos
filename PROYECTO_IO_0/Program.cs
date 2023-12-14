@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.IO; // para poder operar con archivos
-using System.Drawing; // para poder operar con fotos
+using System.Drawing;
+using System.Numerics; // para poder operar con fotos
 
 namespace PROYECTO_IO
 {
@@ -11,7 +12,7 @@ namespace PROYECTO_IO
      * Parametros de entrada:
      *  --> R: int. Valor numérico de rojo de 0 a 255
      *  --> G: int. Valor numérico de verde de 0 a 255
-     *  --> B: int. Valor numérico de azul de 0 a 255 roc
+     *  --> B: int. Valor numérico de azul de 0 a 255
      ***********************************************************************************************************/
     class CPixel
     {
@@ -44,38 +45,13 @@ namespace PROYECTO_IO
 
     /***********************************************************************************************************
      * Nombre de la clase: CLista
-     * Funcionalidad: 
-     * Parametros de entrada:
-     *  --> 
-     *  --> 
-     *  --> 
+     * Funcionalidad: Almacena una lista de usuarios recogidos de la clase usuario.
      ***********************************************************************************************************/
     public class CLista
     {
-        public CUsuario[] usuarios;
-
-        public CLista()
-        {
-            usuarios = new CUsuario[5]; // Puedes ajustar el tamaño según tus necesidades
-        }
-
-        // Método para verificar las credenciales del usuario
-        public CUsuario IniciarSesion(string nombre, string contraseña)
-        {
-            // Buscar el usuario por correo y contraseña
-            foreach (CUsuario usuario in usuarios)
-            {
-                if (usuario != null && usuario.nombre == nombre && usuario.contraseña == contraseña)
-                {
-                    // Se encontró el usuario, devolverlo
-                    return usuario;
-                }
-            }
-            // Si no se encontró el usuario, devolver null
-            return null;
-        }
+        public CUsuario[] usuarios = new CUsuario[3333];         
     }
-
+    
     internal class Program
     {
         /************************************************************************************************************************
@@ -143,6 +119,107 @@ namespace PROYECTO_IO
         }
 
         /***********************************************************************************************************
+        FUNCIONES DE TXTaVECTOR / INICIO DE SESIÓN / REGISTER:
+        * --> Login: Pide los datos al usuario y comprueba si existen.
+        * --> TXTaVECTOR: Creamos un vector con los datos del usuario que hay en el archivo.
+        * --> Register: Pide los datos al usuario y los pone en el archivo.
+        * --> VECTORaTXT: Pasa el vector creado anteriormente al archivo.
+        ***********************************************************************************************************/
+
+        static int Login(CUsuario[] usuarios) // Mira si existe el usuario introducido en el archivo.
+        {
+            Console.WriteLine("Introduzca su nombre de usuario");
+            string usuario = Console.ReadLine();
+            Console.WriteLine("Introduzca su contraseña");
+            string contraseña = Console.ReadLine();  
+            
+            for(int i = 0; i < 3333; i++)
+            {
+                if(usuarios[i].nombre == usuario && usuarios[i].contraseña == contraseña)
+                {
+                    return 1; // existe el usuario, proceder con la edicion de fotos
+                }
+            }
+
+            for(int j = 0; j < 3333; j++)
+            {
+                if(usuarios[j].nombre != usuario && usuarios[j].contraseña != contraseña)
+                {
+                    return 2; //Usuario no encontrado o contraseña incorrecta, proceder al mostrar menu de opciones
+                    
+                }
+            }
+            return 1;
+        }
+
+        static int Register(CUsuario[] usuarios) //Pedimos nombre y contraseña al usuario y lo metemos en el archivo.
+        {
+            Console.WriteLine("Introduzca su nombre de usuario");
+            string usuario = Console.ReadLine();
+            Console.WriteLine("Introduzca su contraseña");
+            string contraseña = Console.ReadLine();
+            
+            for(int i = 0; i < 3333; i++)
+            {
+                if(usuario == usuarios[i].nombre)
+                {
+                    return 1; // si existe ya ese user, no se puede registrar, proceder a login
+                }
+            }            
+            for(int j = 0; j < 3333; j++)
+            {
+                if(usuarios[j].nombre == null && usuarios[j].contraseña == null && usuarios[j].foto == null) // miramos si hay algun hueco vacio
+                {
+                    usuarios[j].nombre = usuario;
+                    usuarios[j].contraseña = contraseña;
+                    return 2; //podemos guardar el user en este espacio, proceder a escribir el user en ese vector y a la edicion de fotos
+                }
+            }
+            return 0; //no tenemos espacio lo sentimos, cerrar programa
+        }
+        
+        static CUsuario[] TXTaVECTOR() // Creamos un vector con los datos del usuario que hay en el archivo.
+        {   
+            StreamReader leer = new StreamReader("usuarios.txt");
+            CUsuario[] usuarios = new CUsuario[5]; // Hay 5 usuarios en el archivo maximo
+        
+            for (int i = 0; i < 3333; i++)
+            {
+                string linea = leer.ReadLine();
+                if (linea != null)
+                {
+                    string[] trozos = linea.Split(' ');
+
+                    if (trozos.Length == 3) // cada línea tiene 3 elementos separados por espacios
+                    {
+                        usuarios[i] = new CUsuario
+                        {
+                            nombre = trozos[0],
+                            contraseña = trozos[1],
+                            foto = trozos[2]
+                        };
+                    }
+                    else
+                    {
+                        Console.WriteLine($"La línea {i + 1} no tiene el formato esperado.");
+                    }
+                }
+            }
+            return usuarios;
+        }
+
+        static void VECTORaTXT(CUsuario[] usuarios)
+        {
+            StreamWriter escritura  = new StreamWriter("usuarios.txt");
+
+            for (int i = 0; i < usuarios.Length; i++)
+            {
+                escritura.WriteLine("{0} {1}", usuarios[i].nombre, usuarios[i].contraseña);
+            }
+            escritura.Close();
+        }
+        
+        /***********************************************************************************************************
          * Nombre de la función: reverse
          * Funcionalidad: recibe una matriz de clase Pixel y devuelve una matriz de clase Pixel con los valores espejo.
          * Parametros de entrada:
@@ -190,8 +267,7 @@ namespace PROYECTO_IO
           *              La posición [0,0] representa el valor de arriba a la izquierda y 
           *              la posición [anchura,altura] el valor de abajo a la derecha de la imagen original.
           *  Devuelve:
-          *  --> 
-          *  --> 
+          *  --> Matriz de pixeles
           ***********************************************************************************************************/
         static CPixel[,] enmarcar(CPixel[,] inimage)
         {
@@ -232,7 +308,6 @@ namespace PROYECTO_IO
          *  Devuelve:
          *  --> matriz result con los pixeles cambiados
          ***********************************************************************************************************/
-
         static CPixel[,] cambiocolor(CPixel[,] inimage, string color)
         {
             CPixel[,] result = null;
@@ -243,7 +318,7 @@ namespace PROYECTO_IO
                 width = inimage.GetLength(0);
                 height = inimage.GetLength(1);
                 result = inimage;
-                //inimage = new CPixel[width, height]; //hace falta?
+                //inimage = new CPixel[width, height]; //hace falta tio?
 
                 if(color == "rojo")
                 {
@@ -355,8 +430,9 @@ namespace PROYECTO_IO
         }
 
         public static bool ComprobarCuadrado(CPixel[,] inimage, CPixel[,] inimage2, CPixel[,] inimage3, CPixel[,] inimage4)
+        // Comprueba si las cuatro imagenes son cuadradas.
         {
-           if(inimage.GetLength(0) == inimage.GetLength(1) && inimage2.GetLength(0) == inimage2.GetLength(1) 
+            if(inimage.GetLength(0) == inimage.GetLength(1) && inimage2.GetLength(0) == inimage2.GetLength(1) 
               && inimage3.GetLength(0) == inimage3.GetLength(1) && inimage4.GetLength(0) == inimage4.GetLength(1))
             {
                 return true;
@@ -366,7 +442,8 @@ namespace PROYECTO_IO
                 return false;
             }
         }
-        public static bool comprobarcuad(CPixel[,] inimage)
+        
+        public static bool comprobarcuad(CPixel[,] inimage) // Comprueba si la primera foto es cuarada.
         {
             if(inimage.GetLength(0) == inimage.GetLength(1))
             {
@@ -402,43 +479,96 @@ namespace PROYECTO_IO
             Console.WriteLine(" 4: Invertir la imagen");
             Console.WriteLine();
             Console.WriteLine("*********************************************************************************");
+            Console.WriteLine();
         }
 
         static void Main(string[] args)
         {
             string fotoelegida, fotoelegida2, fotoelegida3, fotoelegida4, colorelegido;
-            string usuario, correo, contraseña, opcion;
+            string usuario, contraseña, opcion;
             CPixel[,] inimage2, inimage3, inimage4;
             bool guardada;
-
-            string fecha = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"); // Obtiene la fecha y hora actuales y las formatea
-            CUsuario us = new CUsuario();
-            Console.WriteLine("Introduce usuario");
-            usuario = Console.ReadLine();
-            us.nombre = usuario;
-
+            CUsuario[] usuarios = new CUsuario[3333];
+            CLista[] lista_usuarios;
+            
             try
             {
                 StreamReader lectura = new StreamReader("usuarios.txt");
+                lectura.Close();
             }
             catch(FileNotFoundException)    
             {      
-                
+                Console.WriteLine("Aun no existe el archivo usuarios.txt, vamos a crearlo");
+                StreamWriter creartxt = new StreamWriter("usuarios.txt");
+                creartxt.Close();
             }
             
-            Console.WriteLine("Introduce correo");
-            correo = Console.ReadLine();
-            us.correo = correo;
-            Console.WriteLine("Contraseña, por favor");
-            contraseña = Console.ReadLine();
-            us.contraseña = contraseña;         
+            Console.WriteLine("Buenas!! Qué desea hacer?: ");
+            Console.WriteLine("0. Salir");
+            Console.WriteLine("1. Iniciar Sesión");
+            Console.WriteLine("2. Registrarse");
+            string opcion_usuario = Console.ReadLine();
+            
+            while(opcion_usuario != "0")
+            {
+                switch(opcion_usuario)
+                {
+                    case "0":
+                        Console.WriteLine("Saliendo chavalin");
+                        break;
 
-            StreamWriter escritura = new StreamWriter("usuarios.txt");
-            escritura.WriteLine("Fecha de la edición: " + fecha);
-            escritura.WriteLine("Usuario: " + usuario);
-            escritura.WriteLine("Correo: " + correo);
-            escritura.WriteLine("Contraseña: " + contraseña);
-            escritura.WriteLine("");
+                    case "1":
+                        Console.WriteLine("Perfecto, iniciando sesión...");
+                        int login = Login(usuarios);
+                        if(login == 1)
+                        {
+                            Console.WriteLine("Bienvenido de nuevo guapete");
+                            break;
+                        }
+                        else if(login == 2)
+                        {
+                            Console.WriteLine("Datos no encontrados o datos introducidos incorrectos");
+                            Console.WriteLine("0. Salir");
+                            Console.WriteLine("1. Iniciar Sesión");
+                            Console.WriteLine("2. Registrarse");
+                            opcion_usuario = Console.ReadLine();
+                        }
+                        break;
+
+                    case "2":
+                        Console.WriteLine("Perfecto, registrando usuario...");
+                        int register = Register(usuarios);
+                        if(register == 1)
+                        {
+                            Console.WriteLine("Este usuario ya existe");
+                            Console.WriteLine("0. Salir");
+                            Console.WriteLine("1. Iniciar Sesión");
+                            Console.WriteLine("2. Registrarse");
+                            opcion_usuario = Console.ReadLine();
+                        }
+                        else if(register == 2)
+                        {
+                            Console.WriteLine("Se bienvenido al editor de fotos, has sido guardado");
+                        }
+                        else if(register == 0)
+                        {
+                            Console.WriteLine("Lo sentimos pero no hay espacio suficiente, no podemos albergarte");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Error inesperado");
+                        }
+                        break;
+
+                    default:
+                        Console.WriteLine("Codigo incorrecto chavalín...");
+                        Console.WriteLine("Elije de nuevo tío: ");
+                        Console.WriteLine("1. Iniciar Sesión");
+                        Console.WriteLine("2. Registrarse");
+                        opcion_usuario = Console.ReadLine();
+                        break;
+                }
+            }        
             
             Console.WriteLine("Qué imagen quieres manipular?");
             fotoelegida = Console.ReadLine();
@@ -450,7 +580,7 @@ namespace PROYECTO_IO
                 try // Probamos si existe la imagen
                 {                    
                     inimage = PNGtoMATRIZ(fotoelegida);
-                    existe = true; // Si no hay excepción, establecemos existe a true para salir del bucle
+                    existe = true; // Si no hay excepción, establecemos que existe a true para salir del bucle
                 }
                 catch (ArgumentException)
                 {
@@ -460,11 +590,7 @@ namespace PROYECTO_IO
                 }
             }
 
-            escritura.WriteLine("Foto elegida: " + fotoelegida);
             inimage = PNGtoMATRIZ(fotoelegida);
-            
-            escritura.WriteLine();
-            escritura.WriteLine("Historial de operaciones:");
 
             if (inimage != null)
             {
@@ -476,12 +602,10 @@ namespace PROYECTO_IO
                     switch (opcion)
                     {
                         case "0":
-                            escritura.WriteLine("Terminar");
                             Console.WriteLine("Terminando Programa");
                             break;
 
                         case "1":
-                            escritura.WriteLine("Enmarcar");
                             Console.WriteLine("Enmarcando de color rojo...");
                             enmarcar(inimage);
                             if (enmarcar(inimage) != null)
@@ -496,14 +620,13 @@ namespace PROYECTO_IO
                             break;
 
                         case "2":
-                            escritura.WriteLine("Collage");
                             Console.WriteLine();
-                            Console.WriteLine("Comprobamos si la primera foto es cuadrada...");
+                            Console.WriteLine("Comprobando que la primera foto sea cuadrada...");
                             bool compr = comprobarcuad(inimage);
 
                             if(compr == true)
                             {
-                                Console.WriteLine("La foto dada es cuadrada :)");
+                                Console.WriteLine("La foto es cuadrada :))))");
                                 Console.WriteLine();
                                 Console.WriteLine("Para el collage necesito 3 fotos más tío (tienen que ser cuadradas)");
                                 
@@ -516,11 +639,9 @@ namespace PROYECTO_IO
                                 fotoelegida4 = Console.ReadLine();
 
                                 while(true)
-                                {
-                                    
+                                {                                    
                                     try
                                     {
-
                                         inimage2 = PNGtoMATRIZ(fotoelegida2);
                                         inimage3 = PNGtoMATRIZ(fotoelegida3);
                                         inimage4 = PNGtoMATRIZ(fotoelegida4);
@@ -541,12 +662,12 @@ namespace PROYECTO_IO
                                 inimage3 = PNGtoMATRIZ(fotoelegida3);
                                 inimage4 = PNGtoMATRIZ(fotoelegida4);
 
-                                Console.WriteLine("Vamos a comprobar si son cuadrados...");
+                                Console.WriteLine("Vamos a comprobar si son cuadradas...");
                                 
                                 bool comprobar = ComprobarCuadrado(inimage, inimage2, inimage3, inimage4);
                                 if(comprobar == true)
                                 {
-                                    Console.WriteLine("Perfecto, son cuadrados");
+                                    Console.WriteLine("Perfecto, son cuadradas");
                                     Console.WriteLine();
                                     Console.WriteLine("Vamos a empezar con el collage");
 
@@ -558,7 +679,6 @@ namespace PROYECTO_IO
                                         if(guardada == true)
                                         {
                                             Console.WriteLine("Foto guardada tio");
-
                                         }
                                         else
                                         {
@@ -569,13 +689,11 @@ namespace PROYECTO_IO
                             }
                             else
                             {
-                                Console.WriteLine("La foto dada no es cuadrada por lo tanto no se puede hacer el collage, ingrese otra operacion");
+                                Console.WriteLine("La foto dada no es cuadrada por lo tanto no se puede hacer el collage, ingrese otra operación");
                             }
-
                             break;
                             
                         case "3":
-                            escritura.WriteLine("Cambiar color");
                             Console.WriteLine("¿Quieres cambiar a rojo, verde o azul?: ");
                             colorelegido = Console.ReadLine().ToLower();
 
@@ -594,12 +712,11 @@ namespace PROYECTO_IO
                             }
                             else
                             {
-                                Console.WriteLine("Error al elegir un color...");
+                                Console.WriteLine("Error al elegir un color Albert, lee bien...");
                             }
                             break;
 
                         case "4":
-                            escritura.WriteLine("Inversión");
                             Console.WriteLine("Espera un segundín mientras invierto la foto...");
                             reverse(inimage);
                             if (reverse(inimage) != null)
@@ -613,7 +730,6 @@ namespace PROYECTO_IO
                             break;
 
                         default:
-                            escritura.WriteLine("Error en código de operación");
                             Console.WriteLine("Código de operacion incorrecto chavalín");
                             break;
                     }
@@ -625,8 +741,20 @@ namespace PROYECTO_IO
             {
                 Console.WriteLine("No se pudo cargar la imagen jodeeeeeer");
             }
-            escritura.Close();
             Console.WriteLine("Hasta otra tío! :D");
         }
     }
 }
+
+/*
+
+COSAS QUE HAY QUE ACABAR PARA QUE NO HAYAN ERRORES PARA EL USUARIO: 
+
+1. CAMBIAR LA GESTION DE USUARIOS Y QUE SOLO SE GUARDE EN EL .TXT SU NOMBRE / CORREO / CONTRASEÑA EN ESTE FORMATO: {1}-{2}-{3}
+
+2. DANI!!! EN EL PRIMER SWITCH DE (LOGIN/REGISTER) SE GUARDA EN UN .TXT EL NOMBRE DE USUARIO, CORREO Y CONTRASEÑA, EN EL SEGUNDO SWITCH SE ALMACENA LOKE YA TENEMOS
+EL ALBERT ME HA DICHO QUE ESTA BIEN LO DE LOS DOS SWITCH 
+
+3. BASICMENTE HAY QUE ARREGLAR LAS FUNCIONES REGISTER Y LOGIN DE MANERA QUE NO DEN ERROR AL USUARIO
+
+*/
