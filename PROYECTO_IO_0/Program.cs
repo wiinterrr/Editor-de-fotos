@@ -511,8 +511,8 @@ namespace PROYECTO_IO
             for(int i = 0; i<3333; i++)
             {
                 CUsuario usuarios = new CUsuario();
-                lista.usuarios[i].contraseña = "";
-                lista.usuarios[i].nombre = "";
+                lista.usuarios[i].contraseña = ".";
+                lista.usuarios[i].nombre = ".";
                 lista.usuarios[i] = usuarios;
             }
             
