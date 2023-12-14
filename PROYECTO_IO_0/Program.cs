@@ -2,7 +2,8 @@
 using System.Linq;
 using System.IO; // para poder operar con archivos
 using System.Drawing;
-using System.Numerics; // para poder operar con fotos
+using System.Numerics;
+using System.Runtime.CompilerServices; // para poder operar con fotos
 
 namespace PROYECTO_IO
 {
@@ -40,16 +41,16 @@ namespace PROYECTO_IO
     {
         public string nombre;
         public string contraseña;
-        public string foto;
+        // public string foto;
     }
 
     /***********************************************************************************************************
      * Nombre de la clase: CLista
-     * Funcionalidad: Almacena una lista de usuarios recogidos de la clase usuario.
+     * Funcionalidad: Es un vector que almacena un vector por usuario con su nombre y contraseña.
      ***********************************************************************************************************/
     public class CLista
     {
-        public CUsuario[] usuarios = new CUsuario[3333];         
+        public CUsuario[] usuarios = new CUsuario[3333];
     }
     
     internal class Program
@@ -126,7 +127,7 @@ namespace PROYECTO_IO
         * --> VECTORaTXT: Pasa el vector creado anteriormente al archivo.
         ***********************************************************************************************************/
 
-        static int Login(CUsuario[] usuarios) // Mira si existe el usuario introducido en el archivo.
+        static int Login(CLista lista_usuarios) // Mira si existe el usuario introducido en el archivo.
         {
             Console.WriteLine("Introduzca su nombre de usuario");
             string usuario = Console.ReadLine();
@@ -135,86 +136,72 @@ namespace PROYECTO_IO
             
             for(int i = 0; i < 3333; i++)
             {
-                if(usuarios[i].nombre == usuario && usuarios[i].contraseña == contraseña)
+                if(lista_usuarios.usuarios[i].nombre == usuario && lista_usuarios.usuarios[i].contraseña == contraseña)
                 {
                     return 1; // existe el usuario, proceder con la edicion de fotos
                 }
             }
-
-            for(int j = 0; j < 3333; j++)
-            {
-                if(usuarios[j].nombre != usuario && usuarios[j].contraseña != contraseña)
-                {
-                    return 2; //Usuario no encontrado o contraseña incorrecta, proceder al mostrar menu de opciones
-                    
-                }
-            }
-            return 1;
+            return 2; // Sale del bucle, por lo tanto no existe el usuario entonces retorna 2
         }
 
-        static int Register(CUsuario[] usuarios) //Pedimos nombre y contraseña al usuario y lo metemos en el archivo.
+        static int Register(CLista lista) //Pedimos nombre y contraseña al usuario y lo metemos en el archivo.
         {
             Console.WriteLine("Introduzca su nombre de usuario");
             string usuario = Console.ReadLine();
             Console.WriteLine("Introduzca su contraseña");
             string contraseña = Console.ReadLine();
+            lista = new CLista();
             
             for(int i = 0; i < 3333; i++)
             {
-                if(usuario == usuarios[i].nombre)
+                if(usuario == lista.usuarios[i].nombre)
                 {
-                    return 1; // si existe ya ese user, no se puede registrar, proceder a login
+                    return 1; // el user ya existe, proceder a login
                 }
             }            
             for(int j = 0; j < 3333; j++)
             {
-                if(usuarios[j].nombre == null && usuarios[j].contraseña == null && usuarios[j].foto == null) // miramos si hay algun hueco vacio
+                if(lista.usuarios[j].nombre == null && lista.usuarios[j].contraseña == null) // miramos si hay algun hueco vacio
                 {
-                    usuarios[j].nombre = usuario;
-                    usuarios[j].contraseña = contraseña;
+                    lista.usuarios[j].nombre = usuario;
+                    lista.usuarios[j].contraseña = contraseña;
                     return 2; //podemos guardar el user en este espacio, proceder a escribir el user en ese vector y a la edicion de fotos
                 }
             }
             return 0; //no tenemos espacio lo sentimos, cerrar programa
         }
         
-        static CUsuario[] TXTaVECTOR() // Creamos un vector con los datos del usuario que hay en el archivo.
+        static CLista TXTaVECTOR() 
         {   
             StreamReader leer = new StreamReader("usuarios.txt");
-            CUsuario[] usuarios = new CUsuario[5]; // Hay 5 usuarios en el archivo maximo
-        
-            for (int i = 0; i < 3333; i++)
-            {
-                string linea = leer.ReadLine();
-                if (linea != null)
-                {
-                    string[] trozos = linea.Split(' ');
+            CLista lista = new CLista();
 
-                    if (trozos.Length == 3) // cada línea tiene 3 elementos separados por espacios
+            string linea = leer.ReadLine();
+            for(int i = 0; linea != null; i++)
+            {
+                string[] trozos = linea.Split(' ');
+                if(trozos.Length == 2)
+                {
+                    CUsuario usuario = new CUsuario
                     {
-                        usuarios[i] = new CUsuario
-                        {
-                            nombre = trozos[0],
-                            contraseña = trozos[1],
-                            foto = trozos[2]
-                        };
-                    }
-                    else
-                    {
-                        Console.WriteLine($"La línea {i + 1} no tiene el formato esperado.");
-                    }
+                        nombre = trozos[0],
+                        contraseña = trozos[1]
+                    };
+                    lista.usuarios[i] = usuario;
                 }
+                linea = leer.ReadLine();
             }
-            return usuarios;
+            leer.Close();
+            return lista;
         }
 
-        static void VECTORaTXT(CUsuario[] usuarios)
+        static void VECTORaTXT(CLista lista_usuarios)
         {
             StreamWriter escritura  = new StreamWriter("usuarios.txt");
 
-            for (int i = 0; i < usuarios.Length; i++)
+            for (int i = 0; i < lista_usuarios.usuarios.Length; i++)
             {
-                escritura.WriteLine("{0} {1}", usuarios[i].nombre, usuarios[i].contraseña);
+                escritura.WriteLine("{0} {1}", lista_usuarios.usuarios[i].nombre, lista_usuarios.usuarios[i].contraseña);
             }
             escritura.Close();
         }
@@ -477,7 +464,18 @@ namespace PROYECTO_IO
             Console.WriteLine(" 3: Cambiar la tonalidad de la foto");
             Console.WriteLine();
             Console.WriteLine(" 4: Invertir la imagen");
+            Console.WriteLine("*********************************************************************************");
             Console.WriteLine();
+        }
+
+        static void minimenu()
+        {
+            Console.WriteLine();
+            Console.WriteLine("*********************************************************************************");
+            Console.WriteLine("Elije: ");
+            Console.WriteLine("0. Salir");
+            Console.WriteLine("1. Iniciar sesión");
+            Console.WriteLine("2. Registrarse");
             Console.WriteLine("*********************************************************************************");
             Console.WriteLine();
         }
@@ -486,10 +484,10 @@ namespace PROYECTO_IO
         {
             string fotoelegida, fotoelegida2, fotoelegida3, fotoelegida4, colorelegido;
             string usuario, contraseña, opcion;
-            CPixel[,] inimage2, inimage3, inimage4;
+            int opcion_minimenu;
             bool guardada;
+            CPixel[,] inimage2, inimage3, inimage4;
             CUsuario[] usuarios = new CUsuario[3333];
-            CLista[] lista_usuarios;
             
             try
             {
@@ -502,11 +500,11 @@ namespace PROYECTO_IO
                 StreamWriter creartxt = new StreamWriter("usuarios.txt");
                 creartxt.Close();
             }
-            
+
+            CLista lista = TXTaVECTOR();
+
             Console.WriteLine("Buenas!! Qué desea hacer?: ");
-            Console.WriteLine("0. Salir");
-            Console.WriteLine("1. Iniciar Sesión");
-            Console.WriteLine("2. Registrarse");
+            minimenu();
             string opcion_usuario = Console.ReadLine();
             
             while(opcion_usuario != "0")
@@ -519,52 +517,48 @@ namespace PROYECTO_IO
 
                     case "1":
                         Console.WriteLine("Perfecto, iniciando sesión...");
-                        int login = Login(usuarios);
+                        int login = Login(lista);
                         if(login == 1)
                         {
                             Console.WriteLine("Bienvenido de nuevo guapete");
-                            break;
+                            opcion_minimenu = 1;
                         }
                         else if(login == 2)
                         {
                             Console.WriteLine("Datos no encontrados o datos introducidos incorrectos");
-                            Console.WriteLine("0. Salir");
-                            Console.WriteLine("1. Iniciar Sesión");
-                            Console.WriteLine("2. Registrarse");
+                            minimenu();
                             opcion_usuario = Console.ReadLine();
                         }
                         break;
 
                     case "2":
                         Console.WriteLine("Perfecto, registrando usuario...");
-                        int register = Register(usuarios);
+                        int register = Register(lista);
                         if(register == 1)
                         {
                             Console.WriteLine("Este usuario ya existe");
-                            Console.WriteLine("0. Salir");
-                            Console.WriteLine("1. Iniciar Sesión");
-                            Console.WriteLine("2. Registrarse");
+                            minimenu();
                             opcion_usuario = Console.ReadLine();
                         }
                         else if(register == 2)
                         {
-                            Console.WriteLine("Se bienvenido al editor de fotos, has sido guardado");
+                            Console.WriteLine("Bienvenido al editor de fotos, has sido guardado");
+                            opcion_minimenu = 2;
+
                         }
                         else if(register == 0)
                         {
-                            Console.WriteLine("Lo sentimos pero no hay espacio suficiente, no podemos albergarte");
+                            Console.WriteLine("Lo sentimos pero no hay espacio suficiente, no podemos almacenar a mas gente!!");
                         }
                         else
                         {
-                            Console.WriteLine("Error inesperado");
+                            Console.WriteLine("Vaya vaya tío, error inesperado");
                         }
                         break;
 
                     default:
-                        Console.WriteLine("Codigo incorrecto chavalín...");
-                        Console.WriteLine("Elije de nuevo tío: ");
-                        Console.WriteLine("1. Iniciar Sesión");
-                        Console.WriteLine("2. Registrarse");
+                        Console.WriteLine("Codigo incorrecto chavalín... elije de nuevo");
+                        minimenu();
                         opcion_usuario = Console.ReadLine();
                         break;
                 }
