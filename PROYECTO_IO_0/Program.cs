@@ -131,7 +131,16 @@ namespace PROYECTO_IO
                 Console.WriteLine("Introduzca su nombre de usuario");
                 string usuario = Console.ReadLine();
                 Console.WriteLine("Introduzca su contraseña");
-                string contraseña = Console.ReadLine();  
+                string contraseña = Console.ReadLine();
+
+                while(string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(contraseña))
+                {
+                    Console.WriteLine("No escribas tonterias!!");
+                    Console.WriteLine("Introduzca su nombre de usuario");
+                    usuario = Console.ReadLine();
+                    Console.WriteLine("Introduzca su contraseña");
+                    contraseña = Console.ReadLine();
+                }  
                 
                 for(int i = 0; i < 3333; i++)
                 {
@@ -155,9 +164,18 @@ namespace PROYECTO_IO
             Console.WriteLine("Introduzca su contraseña");
             string contraseña = Console.ReadLine();
             
+            while(string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(contraseña))
+            {
+                Console.WriteLine("No escribas tonterias!!");
+                Console.WriteLine("Introduzca su nombre de usuario");
+                usuario = Console.ReadLine();
+                Console.WriteLine("Introduzca su contraseña");
+                contraseña = Console.ReadLine();
+            }
+
             for(int i = 0; i < 3333; i++)
             {
-                if(lista.usuarios[i] == null)
+                if(string.IsNullOrWhiteSpace(lista.usuarios[i].nombre) || string.IsNullOrWhiteSpace(lista.usuarios[i].contraseña))
                 {
                     lista.usuarios[i] = new CUsuario();
                 }
@@ -170,7 +188,7 @@ namespace PROYECTO_IO
 
             for(int j = 0; j < 5; j++)
             {
-                if(lista.usuarios[j].nombre == null) // miramos si hay algun hueco vacio
+                if(string.IsNullOrWhiteSpace(lista.usuarios[j].nombre) || string.IsNullOrWhiteSpace(lista.usuarios[j].contraseña)) // miramos si hay algun hueco vacio
                 {
                     lista.usuarios[j] = new CUsuario // se escriben los datos del usuario en el vector de vectores
                     {
@@ -180,7 +198,7 @@ namespace PROYECTO_IO
                     return 2; //podemos guardar el user en este espacio, proceder a escribir el user en ese vector y a la edicion de fotos
                 }
             }
-            return 0; //no tenemos espacio lo sentimos
+            return 0; //datos mal introducidos
         }
         
         static CLista TXTaVECTOR() 
@@ -570,7 +588,7 @@ namespace PROYECTO_IO
                         }
                         else if(register == 0)
                         {
-                            Console.WriteLine("Lo sentimos pero no hay espacio suficiente, no podemos almacenar a mas gente!!");
+                            Console.WriteLine("Datos mal introducidos");
                             minimenu();
                             opcion_usuario = Console.ReadLine();
                         }
