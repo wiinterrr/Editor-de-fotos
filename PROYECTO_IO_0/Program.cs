@@ -175,8 +175,9 @@ namespace PROYECTO_IO
 
             for(int i = 0; i < 3333; i++)
             {
-                if(string.IsNullOrWhiteSpace(lista.usuarios[i].nombre) || string.IsNullOrWhiteSpace(lista.usuarios[i].contraseña))
+                if(lista.usuarios[i] == null)
                 {
+                    
                     lista.usuarios[i] = new CUsuario();
                 }
                 else if(lista.usuarios[i].nombre == usuario)
