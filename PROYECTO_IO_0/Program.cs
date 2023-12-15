@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.IO; // para poder operar con archivos
-using System.Drawing;
-using System.Numerics;
-using System.Runtime.CompilerServices; // para poder operar con fotos
+using System.Drawing; // para poder operar con fotos
 
 namespace PROYECTO_IO
 {
@@ -31,10 +29,9 @@ namespace PROYECTO_IO
 
     /***********************************************************************************************************
      * Nombre de la clase: CUsuario
-     * Funcionalidad: Almacena el nombre, correo y contraseña que el usuario introduzca en la clase usuario.
+     * Funcionalidad: Almacena el nombre y contraseña que el usuario introduzca en la clase usuario.
      * Parametros de entrada:
      *  --> nombre: string nombre
-     *  --> correo: string correo
      *  --> contraseña: string contraseña
      ***********************************************************************************************************/
     public class CUsuario // Creamos la clase en la que almacenamos datos de los usuarios
@@ -50,7 +47,7 @@ namespace PROYECTO_IO
      ***********************************************************************************************************/
     public class CLista
     {
-        public CUsuario[] usuarios = new CUsuario[3333];
+        public CUsuario[] usuarios = new CUsuario[3333]; //se pueden albergar hasta 3333 usuarios
     }
     
     internal class Program
@@ -122,9 +119,9 @@ namespace PROYECTO_IO
         /***********************************************************************************************************
         FUNCIONES DE TXTaVECTOR / INICIO DE SESIÓN / REGISTER:
         * --> Login: Pide los datos al usuario y comprueba si existen.
-        * --> TXTaVECTOR: Creamos un vector con los datos del usuario que hay en el archivo.
-        * --> Register: Pide los datos al usuario y los pone en el archivo.
-        * --> VECTORaTXT: Pasa el vector creado anteriormente al archivo.
+        * --> TXTaVECTOR: Creamos un vector de vectores con datos de los usuarios.
+        * --> Register: Pide los datos al usuario y los pone en un nuevo vector si no existe ya el usuario.
+        * --> VECTORaTXT: Pasa el vector de vectores al archivo.
         ***********************************************************************************************************/
 
         static int Login(CLista lista_usuarios) // Mira si existe el usuario introducido en el archivo.
@@ -143,11 +140,11 @@ namespace PROYECTO_IO
                         return 1; // existe el usuario, proceder con la edicion de fotos
                     }
                 }
-                return 2;
+                return 2; //si user no existe, se tiene que registrar
             }
             catch(Exception)
             {
-               return 0; 
+               return 0; // los datos no se han encontrado
             }
         }
 
@@ -175,7 +172,7 @@ namespace PROYECTO_IO
             {
                 if(lista.usuarios[j].nombre == null) // miramos si hay algun hueco vacio
                 {
-                    lista.usuarios[j] = new CUsuario
+                    lista.usuarios[j] = new CUsuario // se escriben los datos del usuario en el vector de vectores
                     {
                         nombre = usuario,
                         contraseña = contraseña
@@ -183,7 +180,7 @@ namespace PROYECTO_IO
                     return 2; //podemos guardar el user en este espacio, proceder a escribir el user en ese vector y a la edicion de fotos
                 }
             }
-            return 0; //no tenemos espacio lo sentimos, cerrar programa
+            return 0; //no tenemos espacio lo sentimos
         }
         
         static CLista TXTaVECTOR() 
@@ -431,21 +428,8 @@ namespace PROYECTO_IO
             return result;
         }
 
-        public static bool ComprobarCuadrado(CPixel[,] inimage, CPixel[,] inimage2, CPixel[,] inimage3, CPixel[,] inimage4)
-        // Comprueba si las cuatro imagenes son cuadradas.
-        {
-            if(inimage.GetLength(0) == inimage.GetLength(1) && inimage2.GetLength(0) == inimage2.GetLength(1) 
-              && inimage3.GetLength(0) == inimage3.GetLength(1) && inimage4.GetLength(0) == inimage4.GetLength(1))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        
-        public static bool comprobarcuad(CPixel[,] inimage) // Comprueba si la primera foto es cuarada.
+        // Comprueba si la primera foto es cuarada.
+        public static bool check_if_cuadrada(CPixel[,] inimage) 
         {
             if(inimage.GetLength(0) == inimage.GetLength(1))
             {
@@ -457,12 +441,26 @@ namespace PROYECTO_IO
             }
         }
 
+        // Comprueba si las cuatro imagenes son cuadradas.
+        public static bool todas_cuadradas(CPixel[,] inimage, CPixel[,] inimage2, CPixel[,] inimage3, CPixel[,] inimage4)
+        {
+            if(inimage.GetLength(0) == inimage.GetLength(1) && inimage2.GetLength(0) == inimage2.GetLength(1) 
+              && inimage3.GetLength(0) == inimage3.GetLength(1) && inimage4.GetLength(0) == inimage4.GetLength(1))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         /***********************************************************************************************************
-         * Nombre de la función: menu
+         * Nombre de la función: menu y minimeu
          * Funcionalidad: Mostrar al usuario las opciones que tiene disponibles y sus respectivos codigos
          * Devuelve:
-         *  --> 1 linea en la consola con la pregunta de qué operacion se quiere realizar
-         *  --> 5 líneas en la consola, cada una con una operacion
+         *  --> 1 linea en la consola que pregunta qué operacion se quiere realizar
+         *  --> 5 líneas en el caso de menu y 3 en el minimenu en la consola, cada una con una operacion realizable
          ***********************************************************************************************************/
         static void menu()
         {
@@ -506,7 +504,7 @@ namespace PROYECTO_IO
             
             CLista lista = new CLista();
             
-            try
+            try //se gestiona la no localizacion del archivo usuarios.txt
             {
                 StreamReader lectura = new StreamReader("usuarios.txt");
                 lectura.Close();
@@ -518,10 +516,9 @@ namespace PROYECTO_IO
                 creartxt.Close();
             }
 
-            lista = TXTaVECTOR();    // ERROR VALE NULL
+            lista = TXTaVECTOR();
             
-            
-            Console.WriteLine("Buenas!! Qué desea hacer?: ");
+            Console.WriteLine("Buenas!! Qué desea hacer? Introduzca el numero a la izquierda de la operacion: ");
             minimenu();
             string opcion_usuario = Console.ReadLine();
 
@@ -545,6 +542,12 @@ namespace PROYECTO_IO
                         else if(login == 0)
                         {
                             Console.WriteLine("Datos no encontrados");
+                            minimenu();
+                            opcion_usuario = Console.ReadLine();
+                        }
+                        else if(login == 2)
+                        {
+                            Console.WriteLine("No existes... Te tienes que registrar primero");
                             minimenu();
                             opcion_usuario = Console.ReadLine();
                         }
@@ -573,7 +576,7 @@ namespace PROYECTO_IO
                         }
                         else
                         {
-                            Console.WriteLine("Vaya vaya tío, error inesperado, mira que es raro que pase y vas y lo consigues");
+                            Console.WriteLine("Vaya vaya tío, error inesperado, mira que es raro que pase pero vas y lo consigues");
                             minimenu();
                             opcion_usuario = Console.ReadLine();
                         }
@@ -590,7 +593,7 @@ namespace PROYECTO_IO
             if(opcion_minimenu == 1 || opcion_minimenu == 2)
             {       
             
-                Console.WriteLine("Qué imagen quieres manipular?");
+                Console.WriteLine("Qué imagen quieres manipular? introduce el nombre y el .png/.jpg");
                 fotoelegida = Console.ReadLine();
                 CPixel[,] inimage;
 
@@ -626,7 +629,7 @@ namespace PROYECTO_IO
                                 break;
 
                             case "1":
-                                Console.WriteLine("Enmarcando de color rojo...");
+                                Console.WriteLine("Enmarcando de color rarito (155, 100, 50)...");
                                 enmarcar(inimage);
                                 if (enmarcar(inimage) != null)
                                 {
@@ -642,7 +645,7 @@ namespace PROYECTO_IO
                             case "2":
                                 Console.WriteLine();
                                 Console.WriteLine("Comprobando que la primera foto sea cuadrada...");
-                                bool compr = comprobarcuad(inimage);
+                                bool compr = check_if_cuadrada(inimage);
 
                                 if(compr == true)
                                 {
@@ -684,12 +687,12 @@ namespace PROYECTO_IO
 
                                     Console.WriteLine("Vamos a comprobar si son cuadradas...");
                                     
-                                    bool comprobar = ComprobarCuadrado(inimage, inimage2, inimage3, inimage4);
+                                    bool comprobar = todas_cuadradas(inimage, inimage2, inimage3, inimage4);
                                     if(comprobar == true)
                                     {
                                         Console.WriteLine("Perfecto, son cuadradas");
                                         Console.WriteLine();
-                                        Console.WriteLine("Vamos a empezar con el collage");
+                                        Console.WriteLine("Vamos a empezar con el collage sisisiiss...");
 
                                         if(collage(inimage, inimage2, inimage3, inimage4) != null)
                                         {
@@ -702,7 +705,7 @@ namespace PROYECTO_IO
                                             }
                                             else
                                             {
-                                                Console.WriteLine("No se ha guardado tio");
+                                                Console.WriteLine("No se ha guardado joder");
                                             }
                                         }
                                     }
@@ -732,7 +735,7 @@ namespace PROYECTO_IO
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Error al elegir un color Albert, lee bien...");
+                                    Console.WriteLine("Error al elegir un color, Albert, hay que teclear o rojo o verde o azul...");
                                 }
                                 break;
 
@@ -768,7 +771,7 @@ namespace PROYECTO_IO
             {
                 Console.WriteLine("Saliendo...");
             }
-            Console.WriteLine("Hasta otra tío! :D");
+            Console.WriteLine("Hasta otra tío! :D No olvides suscribirte, like, la campanita y comentar qué te pareció");
         }
     }
 }
