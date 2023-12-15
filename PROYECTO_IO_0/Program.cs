@@ -576,7 +576,7 @@ namespace PROYECTO_IO
                         int register = Register(lista);
                         if(register == 1)
                         {
-                            Console.WriteLine("Este usuario ya existe");
+                            Console.WriteLine("Este usuario ya existe, si quieres inicia sesión");
                             minimenu();
                             opcion_usuario = Console.ReadLine();
                         }
