@@ -513,7 +513,7 @@ namespace PROYECTO_IO
             }
             catch(FileNotFoundException)    
             {      
-                Console.WriteLine("Aun no existe el archivo usuarios.txt, vamos a crearlo");
+                Console.WriteLine("Aun no existe el archivo usuarios.txt o se ha alterado su nombre, vamos a crear otro y ya esta");
                 StreamWriter creartxt = new StreamWriter("usuarios.txt");
                 creartxt.Close();
             }
